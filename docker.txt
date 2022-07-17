@@ -1,0 +1,153 @@
+
+DOCKER INSTALLATION:
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+on Ubuntu see: google.com -> docker doc install
+
+on Arch:
+    $> yay -Syyu docker docker-compose
+    $> sudo systemctl start docker
+    $> sudo systemctl enable docker
+    $> sudo systemctl disable docker
+
+
+Überprüfung:
+    $> sudo docker info     -   information von installiertem docker und system
+    $> sudo docker images   -   alle existierenden Container am Computer
+    $> sudo docker ps [-a]  -   alle aktiven container -> [-a] listet auch alle bereits beendeten container auf
+    $> sudo docker stats    -   gibt statistiken über laufend Container aus (CPU/Netzwerk/IO)
+
+
+EXISTIERENDE CONTAINER herunterladen/warten:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    $> sudo docker pull <paket>                             -   lädt Paket (zb. busybox) herunter
+    $> sudo docker run [-d] <paket [parameter]>             -   startet container
+                                                                [-d] =  detached modus damit der server nicht die command line blockiert und im Hintergrund rennt -> ausgabe (log) wird nicht angezeigt
+                                                                        gibt auch zusatzlich eine Hash-ID zurück für weitere Befehle
+    $> sudo docker attach <Hash-ID>                         -   verbindet wieder zum detached server -> ausgabe (log) wird wieder angezeigt -> es kann mit [strg] + C abgebrochen werden (docker image wird gestoppt)
+    $> sudo docker logs <Hash-ID>                           -   zeigt alle logs seit dem start
+    $> sudo docker exec -ti <Hash-ID> bash                  -   zugriff auf laufenden Container mit der bash-shell
+    $> sudo docker stop <Hash-ID/Container-ID>              -   stopt container
+    $> sudo docker rm <container id> [container id] ...     -   löscht container: <container id> ersichtlich aus "docker ps" (= kurzversion von <Hash-ID>)
+    $> sudo docker container prune                          -   löscht alle gestoppten container  und gibt Speicherplatz frei
+
+    BUSYBOX:
+    $> sudo docker run busybox <shell command>              -   führt shell kommando auf der commandline aus aber im docker container
+    $> sudo docker run -it busybox sh                       -   startet interaktive shell -- beenden mit dem Befehl "exit"
+
+    DOCKER run [operatoren]:
+        -d                                  -   detached modus -> beschrieben bei ersten docker run aufruf
+        -ti                                 -   in kombination mit [-d] kann man dann im docker attach modus mit ( [strg] + [p], [strg] + [q] ) aussteigen ohne den Server zu beenden
+        -p 5000:80                           -  port-forwarding von 5000 am eigenen PC auf port 80 im docker container
+        -v <computer-verz>:<docker-verz>     -  verlinkung von Verzeichniss auf dem Computer zu Verzeichniss im Docker
+                                                damit zb. der nginx-server das html Verzeichniss am eigenen Rechner findet (zb. -v /home/kollia/development/html:/usr/share/nginx/html für nginx-server)
+        --name <eigenname>                  -   vergibt eigenen Namen für den laufenden Container welchen man bei docker ps sieht
+        --restart <parameter>               -   startet den Container wenn docker startet bzw. läuft
+                                                nach folgenden Parametern:
+                                                    no                  -   nie automatisch (default)
+                                                    always              -   immer wenn docker gestartet wird (bzw. beim booten wenn docker enable gesetzt wurde)
+                                                    unless-stopped      -   gleich wie always, jedoch nicht wenn der user selbst den docker container stopped
+                                                    on-failure          -   wenn container abgestürzt ist
+        -m <grösse>                         -   limitiert die RAM Größe für den Container
+                                                    <zahl>b     -   byte
+                                                    <zahl>k     -   kilo byte
+                                                    <zahl>m     -   mega byte
+                                                    <zahl>g     -   giga byte
+        --cpus="<float>"                    -   limitiert die CPU Kerne für den Container
+                                                es muss eine gleitkomma-Zahl angegeben werden
+                                                Auch die halbe CPU ist möglich (--cpus="0.5")
+        --log-driver <driver>               -   welches format beim loggen geschrieben werden soll zb. kann driver "json-file" ohne Anführungszeichen sein
+                                                wohin docker das Logfile schreibt kann herausgefunden werden mit $> docker inspect -f {{.LogPath}} <Hash-ID>
+        --log-opt <option>                  -   Logging Optionen wie folgt
+                                                nax-size=<zahl>m        -   logging file kann maximale größe erreichen. m steht wieder für MegaByte
+                                                max-file=<zahl>         -   wieviele logging files geschrieben werden
+
+    DOCKER image [parameter]:       -   bezieht sich auf das herunter geladene paket
+    DOCKER container [parameter]:   -   bezieht sich auf den laufenden/beendeten Container
+     :gleiche Parameter
+        ls                                  -   listet alle existierenden Container am Computer auf, (= docker images)
+        rm <paket/imagename>                -   löscht existierende Container
+        prune                               -   löscht alle pakete/container die gerade nicht verwendet werden
+
+DOCKER-container erstellen:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Datei erzeugen mit dem Namen "Dockerfile" ohne Endung
+und folgendem Inhalt:
+
+FROM <package:tag>      -   zugrundeliegendes docker Image -> muss nicht installiert sein
+                            könnte zb. das paket python:3.7-slim sein
+                            siehe https://hub.docker.com -> suche nach python -> python anklicken = paket Name
+                            die verschiedenen Tags stehen dann weiter unten bei "Supported tags and respective Dockerfile links"
+WORKDIR <verz>          -   Verzeichniss im Docker-Container welches als Arbeitsverzeichnis aller enthaltenen Dateien dienen soll
+ADD <verz> <docker>     -   kopiert den Inhalt des angegebenen Verzeichnises in das docker Verzeichniss im Container, welches gleich dem WORKDIR sein soll
+RUN <shell-command>     -   führt beliebige shell komandos aus
+                            zb. wenn der zugrundeliegende FROM container ein python container ist
+                            können hiermit requirements mit (pip install) installiert werden
+EXPOSE <port>           -   Port welcher von aussen zugänglich sein soll
+ENV <VAR> <cont>        -   setzt die Environment Variable <VAR> mit dem default Wert <cont>
+                            diese Variable kann beim Starten eines Containers mit der option -e <VAR>=<new cont> geändert werden
+                            das laufende Programm kann dann auf die Environment Variable zugreifen
+                            zb. bei python mit os.getenv("<VAR>", "<default Value>")
+
+CMD ["parm1", "param2"]     -   Angabe welches programm schlußendlich ausgeführt werden soll
+                                zb. eine python app namens "app.py" => CMD ["python", "app.py"]
+
+auf command-line:
+    $> sudo docker build -t <tag-name> <verz>       -   erzeugt den docker-container mit dem namen <tag-name>
+                                                        wobei die Datei "Dockerfile" im Verzeichniss <verz> liegt
+
+DOCKER-container auf docker-hub bereit stellen:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+zuerst konto erstellen auf https://hub.docker.com
+auf commando line einloggen mit username, password
+$> sudo docker login
+
+    $> sudo docker tag <projekt-name> <username/project-name>:<version-nr>      - zuerst projekt taggen -> projekt Name besteht nur aus Kleinbuchstaben
+    $> sudo docker push <username/project-name>:<version-nr>                    - dann gewünschtes Projekt herunter laden
+
+
+
+DOCKER-Compose erstellen:
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Datei erzeugen mit dem Namen "docker-compose.yml"
+mit folgendem Inhalt:
+
+version: "3.6"          -   gewünschte Version der Verteilung von docker-compose
+                            es kommen in jeder Version featuers dazu bzw. ändern sich
+
+services:               -   es folgen alle container/images die in diesem Zusammenstellung/Compose benötigt werden
+    db:                 -   service Name selbst definiert
+        image: <package:tag>        -   siehe FROM im Dockerfile
+        volumes:                    -   siehe option -v beim container starten mit -> DOCKER run
+            - <bez>:<verz>              für eine Datenbank zb. data_db:/var/lib/mysql -> = WORKDIR im Dockerfile
+        depends_on:
+            - <SERVICE>             -   Abhängig von einem Service das zuvor mit selbst defenierten Namen angegeben wurde
+        ports: <fromPort>:<toPort>  -   siehe option -p beim container starten mit -> DOCKER run
+        restart: <type>             -   für type siehe --restart option beim container starten mit -> DOCKER run
+        environment:                -   Angabe mehrere Environment Variablen untereinander, welche im Dockerfile mit ENV angegeben sind
+            <VAR>: <cont>           -   environment Variablen sind ebenfalls auf docker-hub wie die Tags angegeben
+            <VAR>: <cont>
+            MYSQL_ROOT_PASSWORD: <password>     -   zb. für eine mysql Datenbank
+            MYSQL_DATABASE: <database>
+            WORDPRESS_DB_HOST: <SERVICE>:<port> -   zb. für wordpress -> nach angaben im docker-hub braucht nur das <SERVICE> angegeben werden
+        deploy:         -   Auslieferung
+            replicas: <Nr>  -   wie oft der container gestartet werden soll
+            resources:
+                limits:
+                    cpus: <Nr>      -   siehe option --cpus beim container starten mit -> DOCKER run
+volumes:                - nochmal Angabe der eingebundenen volumes jedes services
+    <bez>:              - mehrere untereinander möglich
+
+
+auf command-line:
+    $> sudo docker-compose up -d        ## = vereinfachung für $> sudo docker stack deploy -c docker-compose.yml <paket> # braucht $> sudo docker swarm init
+
+
+
+
+    next Tutorial: "The Morpheus Tutorial" ->
+        Docker Tutorial #28 - Mehr Optionen in Docker Compose
+
