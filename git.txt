@@ -1,0 +1,125 @@
+
+https://www.pro-linux.de/artikel/1/68/git-tutorium.html
+
+************************************************
+*
+* git Konfigurieren
+*
+************************************************
+
+$> git config --global user.name "Alexander Kolli"
+$> git config --global user.email "programming@kolli.at"
+$> git config --global color.ui true                     - optional, Farbgebung für Terminal
+$> git config --global credential.helper store           - speichert user:passwort@host beim nächsten $> git pull - unter ~/.git-credentials
+$> git config --global credential.helper cache           - cached username und passwort
+$> git config --global --unset credential.helper
+[   
+[       --global    - define for all repositorys
+[
+
+[ - vom github server aus - ]
+< create first in github a repository >
+$> git clone <https://github.com/repository.git>
+
+[ - vom eigenen Rechner aus - ]
+$> git init    - first initial git localy to current folder
+$> git clone --bare ./ <different path/new repository>.git      - make new repository and connect with own
+
+
+
+
+
+************************************************
+*
+* git Basis-Bearbeitung
+*
+************************************************
+
+$> git status           - zeigt an ob was zum einchecken vorhanden ist und welche files unversioniert sind
+$> git log              - zeigt alle bereits getätigten commits an
+$> git restore <file>   - stellt Datei im Arbeitsverzeichnis wieder her
+$> git rm <file>        - remove files from repository
+        --cached        - hold file in directory, but not for upload
+        -f              - delete file also from local directory
+        
+$> git add <file>                       - add files to repository
+$> git commit [-m "commit message"]     - mark all added files as commit to server
+$> git push [remote]                            - push files to gitHup <remote>/<current branch>
+$> git push -u origin <to branch>               - push local new repository to remote
+$> git push -u origin <to branch> <from branch> - push from branch to new remote branch
+
+$> git fetch [remote]                   - download from current remote branch into branch snapshot
+$> git pull [remote]                    - download (git fetch) and merge with current stage
+
+
+# wenn pull schief läuft
+$> git pull origin master --allow-unrelated-histories
+
+
+
+************************************************
+*
+* git - Semantic Versioning ( X.Y.Z )
+*       [major].[minor].[patch]-[build/beta/rc]
+*       E.g. v1.2.0-beta
+*
+************************************************
+$> git tag -a "v1.2.0-beta" -m "<commit message>"    -   set current revision to new version
+$> git push --tags                                   -   push version to server
+$> git describe                                      -   show current version
+$> git show v1.2.0-beta                              -   view details
+
+git submodule       -   create repository embedded inside another repository
+
+
+
+
+************************************************
+*
+* git - arbeiten mit Branches
+*
+************************************************
+
+$> git branch                          - list all exist branches -> a star ('*') describe the current branch
+$> git branch <new branch>             - create new branch locally
+                  -d          - löscht branch vom lokalen repository
+
+$> git checkout <branch>      - wechselt auf existierenden branch
+                  -b          - erzeugt branch befor er dorthin wechselt
+$> git checkout <revision> .           - checkout older revision
+$> git reset --hard                    - mybe you have to reset all changes before, or ...
+$> git switch -c <new branch>          - save new changes from old commit in new branch
+
+$> git rebase <from branch>     - ladet die aktuelle Basis vom zb. master branch (= merge ohne commit meldung)
+
+$> git merge <from branch>      - fügt branch mit aktuellen branch zusammen
+
+
+[ bring branches together development -> freeze
+[ git merge                      
+
+git merge <from branch>                  - merge current branche with given branch parameter
+
+git fetch origin
+git checkout -b freeze origin/freeze
+git merge development
+
+# make changes in conflict files
+
+git checkout development
+git merge --no-ff tschaunerx
+git push origin kollia
+
+
+
+
+************************************************
+*
+* git - durch revisionen navigieren
+*
+************************************************
+$ git bisect start
+$ git bisect bad                 # Current version is bad
+$ git bisect good <revision>    # v2.6.13-rc2 is known to be good
+$ git bisect reset
+youtube:https://www.youtube.com/watch?v=D7JJnLFOn4A
