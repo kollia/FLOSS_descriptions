@@ -114,6 +114,7 @@ linux: /var/lib/docker/
 
 ein Image kann wie folgt verteilt werden:
     $> sudo docker save <image-name> > <tar-name>       -   exportiert image in tar-archiv und kann dann verteilt werden
+                                                            man kann auch mehrere Container dann mit dem operator '>>' unterbringen
     $> sudo docker load < <tar-name>                    -   importiert das image wieder
 
     $> sudo docker export -a <tar-name> <docker-name>           -   ebenso könnte ein laufender, bzw. zuvor laufender container, verteilt werden
