@@ -13,7 +13,7 @@ on Arch:
 
 Überprüfung:
     $> sudo docker info     -   information von installiertem docker und system
-    $> sudo docker images   -   alle existierenden Container am Computer
+    $> sudo docker images   -   alle existierenden Container (=image) am Computer
     $> sudo docker ps [-a]  -   alle aktiven container -> [-a] listet auch alle bereits beendeten container auf
     $> sudo docker stats    -   gibt statistiken über laufend Container aus (CPU/Netzwerk/IO)
 
@@ -107,6 +107,17 @@ $> sudo docker login
 
     $> sudo docker tag <projekt-name> <username/project-name>:<version-nr>      - zuerst projekt taggen -> projekt Name besteht nur aus Kleinbuchstaben
     $> sudo docker push <username/project-name>:<version-nr>                    - dann gewünschtes Projekt herunter laden
+
+Speicherort für docker-container
+windows: C:\ProgramData\docker\
+linux: /var/lib/docker/
+
+ein Image kann wie folgt verteilt werden:
+    $> sudo docker save <image-name> > <tar-name>       -   exportiert image in tar-archiv und kann dann verteilt werden
+    $> sudo docker load < <tar-name>                    -   importiert das image wieder
+
+    $> sudo docker export -a <tar-name> <docker-name>           -   ebenso könnte ein laufender, bzw. zuvor laufender container, verteilt werden
+    $> sudo docker import <tar-name> <new_image-name>:<tag>     -   image wird mit neuem Namen Importiert wobei die Version als tag angegeben werden muss. Zb. latest
 
 
 
