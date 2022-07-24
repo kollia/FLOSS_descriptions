@@ -1,0 +1,12 @@
+
+timedatectl                                     -   zeigt aktuelle Zeiten mit Zeitzone
+sudo timedatectl set-timezone 'Europe/Vienna'   -   zuerst Zeitzone richtig stellen
+
+date                            -   zeigt aktuelles Datum mit Zeit
+sudo date +%Y%m%d -s "YYYYmmdd" -   setzt neues aktueles Datum
+sudo date +%T -s "HH:mm:ss"     -   setzt neue aktuelle Zeit
+sudo date +%H -s "hhmm"
+
+sudo hwclock --show             -   zeigt System-Zeit
+sudo hwclock -w                 -   sezt die hardware Zeit auf die `date` Zeit
+
