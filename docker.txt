@@ -10,6 +10,14 @@ on Arch:
     $> sudo systemctl enable docker
     $> sudo systemctl disable docker
 
+    virtuelle Maschine mit docker:
+    $> yay -S docker-machine
+    $> sudo docker-machine create --driver virtualbox <any-VM-Name>
+    $> docker-machine env <created-VM-Name>
+    $> sudo docker-machine ls           -   listet alle laufenden VM's auf
+    $> sudo docker-machine stop <VM>    -   stopt virtuelle Maschinen
+    $> sudo docker-machine  rm <VM>     -   löscht virtuelle Maschinen
+
 
 Überprüfung:
     $> sudo docker info     -   information von installiertem docker und system
@@ -161,5 +169,5 @@ auf command-line:
 
 
     next Tutorial: "The Morpheus Tutorial" ->
-        Docker Tutorial #29 - Swarms
+        Docker Tutorial #32 - Zusätzliche Informationen
 
