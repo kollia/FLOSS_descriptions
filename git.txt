@@ -17,6 +17,34 @@ $> git config --global --unset credential.helper
 [       --global    - define for all repositorys
 [
 
+Generating a new SSH key -> see: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+$> ssh-keygen -t ed25519 -C "your_email@example.com"            -       generate key
+                                                                        es wird ein Filename vorgeschlagen <filename> wenn der unter ~/.ssh/ schon existiert sollte man einen anderen nehmen
+$> eval "$(ssh-agent -s)"                                       -       start ssh-agent in background
+$> ssh-add ~/.ssh/<filename>                                    -       hinzufügen des Keys zum ssh-agent <filename> ohne .pub extension
+$> cat ~/.ssh/<filename>.pub                                    -       kopiere die Ausgabe und füge sie in den Github-Settings ein
+                                                                        kleines rundes Bild rechts oben ankliken
+                                                                                -> Settings
+                                                                                        -> linke Spalte "Access"-Abschnitt -> "SSH and GPG keys" auswählen
+                                                                                                -> neuen Key erstellen mit grünem Button "New SSH key
+                                                                                                        -> beliebigen Titel für Konnektion wählen
+                                                                                                           und den kopierten Inhalt des Public Keys in das Key-Feld kopieren
+$> ssh -T git@github.com                                        -       testing your connection
+                                                                        wenn Du Deinen Namen siehst und es steht "You've successfully authenticated"
+                                                                        kannst Du ein $> git clone <code> machen
+                                                                        wichtig beim grünen Button "Code" SSH wählen
+
+Verwende einen "personal access token" für https Abfrage -> see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                kleines rundes Bild rechts oben ankliken
+                        -> Settings
+                                -> linke Spalte letzte Option -> "Developer settings" auswählen
+                                        -> linke Spalte "Personal access tokens" auswählen
+                                                -> Button rechts oben [generate new token]
+                um den access token zu verwenden siehe -> https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#using-a-token-on-the-command-line
+
+
 [ - vom github server aus - ]
 < create first in github a repository >
 $> git clone <https://github.com/repository.git>
