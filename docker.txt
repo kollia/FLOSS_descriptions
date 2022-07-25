@@ -101,7 +101,8 @@ FROM <package:tag>      -   zugrundeliegendes docker Image -> muss nicht install
                             siehe https://hub.docker.com -> suche nach python -> python anklicken = paket Name
                             die verschiedenen Tags stehen dann weiter unten bei "Supported tags and respective Dockerfile links"
 WORKDIR <verz>          -   Verzeichniss im Docker-Container welches als Arbeitsverzeichnis aller enthaltenen Dateien dienen soll
-ADD <verz> <docker>     -   kopiert den Inhalt des angegebenen Verzeichnises in das docker Verzeichniss im Container, welches gleich dem WORKDIR sein soll
+ADD <verz> <docker>     -   kopiert den Inhalt des angegebenen Verzeichnises in das docker Verzeichniss im Container, geht von root aus
+COPY <verz> <docker>    -   detto, kopiert jedoch nach WORKDIR
 RUN <shell-command>     -   führt beliebige shell komandos aus
                             zb. wenn der zugrundeliegende FROM container ein python container ist
                             können hiermit requirements mit (pip install) installiert werden
