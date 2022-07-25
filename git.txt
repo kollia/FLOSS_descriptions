@@ -9,6 +9,7 @@ https://www.pro-linux.de/artikel/1/68/git-tutorium.html
 
 $> git config --global user.name "Alexander Kolli"
 $> git config --global user.email "programming@kolli.at"
+$> git config --global core.editor nano                  - Editor einstellen
 $> git config --global color.ui true                     - optional, Farbgebung für Terminal
 $> git config --global credential.helper store           - speichert user:passwort@host beim nächsten $> git pull - unter ~/.git-credentials
 $> git config --global credential.helper cache           - cached username und passwort
