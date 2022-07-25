@@ -14,9 +14,21 @@ on Arch:
     $> yay -S docker-machine
     $> sudo docker-machine create --driver virtualbox <any-VM-Name>
     $> docker-machine env <created-VM-Name>
-    $> sudo docker-machine ls           -   listet alle laufenden VM's auf
-    $> sudo docker-machine stop <VM>    -   stopt virtuelle Maschinen
-    $> sudo docker-machine  rm <VM>     -   löscht virtuelle Maschinen
+    $> sudo docker-machine ls                   -   listet alle laufenden VM's auf
+    $> sudo docker-machine inspect <VM-name>    -   zusätzliche Informationen
+                                                        SSHUser
+                                                        SSHPort
+                                                        SSHKeyPath
+                                                        StorePath
+                                                        SwarmHost   -   IP:Port
+                                                        SwarmOptions:
+                                                        IsSwarm     -   zuerst false -> nach Zuordnung true
+                                                        Host
+                                                        Image
+                                                        and more ...
+
+    $> sudo docker-machine stop <VM-name>       -   stopt virtuelle Maschinen
+    $> sudo docker-machine  rm <VM-name>        -   löscht virtuelle Maschinen
 
 
 Überprüfung:
