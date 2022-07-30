@@ -81,8 +81,13 @@ $> git fetch [remote]                   - download from current remote branch in
 $> git pull [remote]                    - download (git fetch) and merge with current stage
 
 
-# wenn pull schief läuft
+# wenn pull schief läuft nach merge bearbeitung
 $> git pull origin master --allow-unrelated-histories
+
+# wenn ein Repository zurückgespielt werden soll, nicht rückgänig zu machen
+# in das gewünschte repository wechseln
+$> git reset --hard <commit-name>
+$> git push -f <remote> <branch> -> zb. git push -f origin main
 
 
 
