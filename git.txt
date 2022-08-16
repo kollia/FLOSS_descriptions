@@ -87,6 +87,7 @@ $> git pull origin master --allow-unrelated-histories
 # wenn ein Repository zurückgespielt werden soll, nicht rückgänig zu machen
 # in das gewünschte repository wechseln
 $> git reset --hard <commit-name>
+$> git config pull.rebase true
 $> git push -f <remote> <branch> -> zb. git push -f origin main
 
 
