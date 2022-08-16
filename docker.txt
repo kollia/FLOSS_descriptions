@@ -10,26 +10,6 @@ on Arch:
     $> sudo systemctl enable docker
     $> sudo systemctl disable docker
 
-    virtuelle Maschine mit docker:
-    $> yay -S docker-machine
-    $> sudo docker-machine create --driver virtualbox <any-VM-Name>
-    $> docker-machine env <created-VM-Name>
-    $> sudo docker-machine ls                   -   listet alle laufenden VM's auf
-    $> sudo docker-machine inspect <VM-name>    -   zusätzliche Informationen
-                                                        SSHUser
-                                                        SSHPort
-                                                        SSHKeyPath
-                                                        StorePath
-                                                        SwarmHost   -   IP:Port
-                                                        SwarmOptions:
-                                                        IsSwarm     -   zuerst false -> nach Zuordnung true
-                                                        Host
-                                                        Image
-                                                        and more ...
-
-    $> sudo docker-machine stop <VM-name>       -   stopt virtuelle Maschinen
-    $> sudo docker-machine  rm <VM-name>        -   löscht virtuelle Maschinen
-
 
 Überprüfung:
     $> sudo docker info     -   information von installiertem docker und system
@@ -85,10 +65,16 @@ EXISTIERENDE CONTAINER herunterladen/warten:
 
     DOCKER image [parameter]:       -   bezieht sich auf das herunter geladene paket
     DOCKER container [parameter]:   -   bezieht sich auf den laufenden/beendeten Container
+    DOCKER volume [parameter]:      -   bezieht sich auf peristente Volumen für die Container
      :gleiche Parameter
         ls                                  -   listet alle existierenden Container am Computer auf, (= docker images)
         rm <paket/imagename>                -   löscht existierende Container
         prune                               -   löscht alle pakete/container die gerade nicht verwendet werden
+
+    DOCKER VOLUME create  - - name <volume-name>    -   erzeugt ein named VOLUME 
+    DOCKER VOLUME inspect <volume-name>             -   gibt zb. auch an wo ein VOLUME liegt (Mountpoint)
+
+
 
 DOCKER-container erstellen:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -171,14 +157,37 @@ services:               -   es folgen alle container/images die in diesem Zusamm
             resources:
                 limits:
                     cpus: <Nr>      -   siehe option --cpus beim container starten mit -> DOCKER run
-volumes:                - nochmal Angabe der eingebundenen volumes jedes services
-    <bez>:              - mehrere untereinander möglich
+volumes:               
+    <bez>:              - erzeugt das VOLUME indem der Container alles abspeichern kann
 
 
 auf command-line:
     $> sudo docker-compose up -d        ## = vereinfachung für $> sudo docker stack deploy -c docker-compose.yml <paket> # braucht $> sudo docker swarm init
 
 
+
+virtuelle Maschine mit docker:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    $> yay -S docker-machine                    -   virtual docker auf Arch Linux installieren
+
+    $> sudo docker-machine create --driver virtualbox <any-VM-Name>
+    $> docker-machine env <created-VM-Name>
+    $> sudo docker-machine ls                   -   listet alle laufenden VM's auf
+    $> sudo docker-machine inspect <VM-name>    -   zusätzliche Informationen
+                                                        SSHUser
+                                                        SSHPort
+                                                        SSHKeyPath
+                                                        StorePath
+                                                        SwarmHost   -   IP:Port
+                                                        SwarmOptions:
+                                                        IsSwarm     -   zuerst false -> nach Zuordnung true
+                                                        Host
+                                                        Image
+                                                        and more ...
+
+    $> sudo docker-machine stop <VM-name>       -   stopt virtuelle Maschinen
+    $> sudo docker-machine  rm <VM-name>        -   löscht virtuelle Maschinen
 
 
     next Tutorial: "The Morpheus Tutorial" ->
