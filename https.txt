@@ -1,0 +1,10 @@
+
+create https with letsencrypt over docker-container
+
+$> docker pull certbot/certbot
+$> docker run -it --rm -p 80:80 -p 443:443 --name certbot \
+    -v "/etc/letsencrypt:/etc/letsencrypt" \
+    -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
+    certbot/certbot certonly
+oder
+$> docker-compose -f docker-compose-certbot.yml run -v --rm certbot certonly --rsa-key-size 4096 --standalone -d <domain>

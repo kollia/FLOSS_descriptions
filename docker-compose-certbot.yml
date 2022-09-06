@@ -1,0 +1,15 @@
+version: "3.6"
+
+services:
+  certbot:
+  # src:https://docs.php.earth/docker/certbot/
+    container_name: certbot
+    image: certbot/certbot
+    volumes:
+      - certbot-data:/etc/letsencrypt
+    ports:
+      - 80
+      - 443
+volumes:
+  certbot-data:
+    external: true
