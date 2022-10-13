@@ -4,6 +4,10 @@ if-sentence
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [ <test> ] && [ <test> ] || [ <test> ] <command>
 - or --
+if [ <test> ]; then
+    <commands>
+fi
+- or --
 if [ <test> ] && [ <test> ] || [ <test> ]
 then
     <commands>
@@ -38,6 +42,12 @@ test's:
                 -w FILE	    FILE exists and the write permission is granted.
                 -x FILE	    FILE exists and the execute permission is granted.
 
+example:
+if [ `id -u` -ne 0 ]; then
+    sudo <path>/<bash-script> # start own bash-script as root
+    exit
+fi
+echo "run as `id -n`"
 
 case-sentence
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
