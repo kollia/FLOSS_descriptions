@@ -1,6 +1,39 @@
 
-create https with letsencrypt over docker-container
+https with openSSL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- ssl modul muss geladen sein
+$> sudo a2enmod ssl
 
+- im gewünschten Verzeichniss (zb. /etc/apache/ssl):
+$> sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout apache.key -out apache.crt
+
+- Zertifikate nach "SSLEngine on" in > /etc/apache2/sites-available/default-ssl.conf  ersetzen
+SSLCertificateFile    <path>/apache.crt
+SSLCertificateKeyFile <path>/apache.key
+
+-Zertifikate aktivieren
+$> sudo a2ensite default-ssl.conf
+$> sudo a2enmod headers
+
+- in default-ssl.conf nach ServerAdmin folgendes einfügen
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=15768000; includeSubDomains; preload"
+</IfModule>
+
+- um port 80 automatisch nach 443 umzuleiten
+$> a2enmod rewrite
+$> a2enmod actions
+
+- unter /etc/apache2/sites-available/000-default.conf folgende Zeilen unter VirtualHost eintragen
+RewriteEngine on
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,QSA,R=permanent]
+
+- apache neu starten
+$> sudo systemctl restart apache2
+
+
+https with letsencrypt over docker-container
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $> docker pull certbot/certbot
 $> docker run -it --rm -p 80:80 -p 443:443 --name certbot \
     -v "/etc/letsencrypt:/etc/letsencrypt" \
