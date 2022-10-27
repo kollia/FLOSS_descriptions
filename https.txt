@@ -23,6 +23,7 @@ $> sudo a2enmod headers
 - um port 80 automatisch nach 443 umzuleiten
 $> a2enmod rewrite
 $> a2enmod actions
+(deactivate is a2dismod <modul>)
 
 - unter /etc/apache2/sites-available/000-default.conf folgende Zeilen unter VirtualHost eintragen
 RewriteEngine on
@@ -31,6 +32,8 @@ RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,QSA,R=permanent]
 - apache neu starten
 $> sudo systemctl restart apache2
 
+- automatische weiterleitung im chrombrowser de-/aktivieren
+auf: chrome://net-internals/#hsts
 
 https with letsencrypt over docker-container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
