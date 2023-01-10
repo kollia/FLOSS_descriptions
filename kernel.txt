@@ -1,0 +1,24 @@
+
+
+# show current kernel Version
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$> uname -r  # or
+$> lsb_release -a  # or
+$> sudo find /boot/ -iname "vmlinuz*" # <- all installed
+
+
+# manage kernels on Debian based systems
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# list kernels
+$> dpkg --list | grep linux-image | grep '^i'  # or
+$> aptitude search linux-image | grep '^i'
+
+# remove kernels
+$> sudo kernel-install remove <Kernel-Version>
+
+
+
+# manage kernels on Arch based systems
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# list kernels
+$> pacman -Q | grep linux
