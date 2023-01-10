@@ -10,11 +10,12 @@ $> sudo find /boot/ -iname "vmlinuz*" # <- all installed
 # manage kernels on Debian based systems
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # list kernels
-$> dpkg --list | grep linux-image | grep '^i'  # or
+$> dpkg --list | grep -i -E --color 'linux-image|linux-kernel' | grep '^ii'  # or
 $> aptitude search linux-image | grep '^i'
 
 # remove kernels
-$> sudo kernel-install remove <Kernel-Version>
+$> sudo apt --purge autoremove # or
+$> ??? sudo kernel-install remove <Kernel-Version> ???
 
 
 
