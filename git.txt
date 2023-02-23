@@ -14,6 +14,9 @@ $> git config --global color.ui true                     - optional, Farbgebung 
 $> git config --global credential.helper store           - speichert user:passwort@host beim nächsten $> git pull - unter ~/.git-credentials
 $> git config --global credential.helper cache           - cached username und passwort
 $> git config --global --unset credential.helper
+$> git config --global pull.rebase true|false            - true für Rebasing beim pullen, false fürs Mergen
+$> git config --global pull.ff only                      - ausschließlich Vorspulen anstatt pull.rebase
+$> 
 [   
 [       --global    - define for all repositorys
 [
