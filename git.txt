@@ -65,8 +65,12 @@ $> git clone --bare ./ <different path/new repository>.git      - make new repos
 ************************************************
 
 $> git status           - zeigt an ob was zum einchecken vorhanden ist und welche files unversioniert sind
-$> git log              - zeigt alle bereits getätigten commits an
+$> git log [option]     - zeigt alle bereits getätigten commits an
+                          options:
+                          --oneline     for pretty short display
+                          --graph       creates a visual depiction of branch creation, checkouts and merges.
 $> git restore <file>   - stellt Datei im Arbeitsverzeichnis wieder her
+                          (verwirft Datei im Arbeitsverzeichnis)
 $> git rm <file>        - remove files from repository
         --cached        - hold file in directory, but not for upload
         -f              - delete file also from local directory
@@ -79,6 +83,13 @@ $> git push -u origin <to branch> <from branch> - push from branch to new remote
 
 $> git fetch [remote]                   - download from current remote branch into branch snapshot
 $> git pull [remote]                    - download (git fetch) and merge with current stage
+
+$> git stash                    - übernimmt alle Änderungen in einen Buffer
+$> git stash list               - listet alle gespeicherten stashes auf
+$> git stash apply [stash@{nr}] - übernimmt die gestashten änderungen wieder
+                                  wird keine Nr angegeben, wird das erste angewendet
+$> git stash drop [stash@{nr}]  - entfernt den gespeicherten stash
+$> git stash pop [stash@{nr}]   - holt den stash, gleich wie apply, jedoch wird er auch aus den gespeicherten gelöscht
 
 
 # wenn pull schief läuft nach merge bearbeitung
@@ -122,7 +133,7 @@ $> git branch <new branch>             - create new branch locally
 $> git checkout <branch>      - wechselt auf existierenden branch
                   -b          - erzeugt branch befor er dorthin wechselt
 $> git checkout <revision> .           - checkout older revision
-$> git reset --hard                    - mybe you have to reset all changes before, or ...
+$> git reset --hard                    - maybe you have to reset all changes before, or ...
 $> git switch -c <new branch>          - save new changes from old commit in new branch
 
 $> git rebase <from branch>     - ladet die aktuelle Basis vom zb. master branch (= merge ohne commit meldung)
@@ -153,8 +164,56 @@ git push origin kollia
 * git - durch revisionen navigieren
 *
 ************************************************
-$ git bisect start
-$ git bisect bad                 # Current version is bad
-$ git bisect good <revision>    # v2.6.13-rc2 is known to be good
-$ git bisect reset
+$> git bisect start             # first start bisect
+$> git bisect bad               # than define current last commit version as bad
+$> git bisect good <revision>   # afterwards define good version ex. git bisect good v2.6.13-rc2
+$> git bisect < bad | good >    # handle now throu commits with bad or true
+                                # git inform with |xxxxxxxxxxx| is the first bad commit
+$> git bisect reset             # now when finding stop bisect > you be in last commit again
+$> git show <first bad commit>  # see bad issues
+
+# git revert changes by youtube step 5:00
+# example: first bad commit  7d160a97435a6073a603dacbaec7728657d3ebcd
+#          last good c94c145
+
+Author: Alexander Kolli <alexander.kolli@medunigraz.at>
+Date:   Fri Feb 17 12:35:50 2023 +0100
+
+    implement next step to UserManagment
+
+ environment/base/STBaseContainer.php               | 119 ++++--
+ environment/base/STBaseTable.php                   | 433 +++++++++++++--------
+ environment/base/STCallbackClass.php               |  10 +-
+ environment/base/STItemBox.php                     |  19 +-
+ environment/base/STListBox.php                     |  12 +-
+ environment/base/STObjectContainer.php             | 110 ++++--
+ environment/db/STDatabase.php                      |  48 ++-
+ environment/db/STDbDeleter.php                     |   2 +-
+ environment/db/STDbMySql.php                       |   2 +-
+ environment/db/STDbSelector.php                    | 192 ++++-----
+ environment/db/STDbTable.php                       | 150 +++++--
+ environment/db/STDbTableContainer.php              |   4 +-
+ environment/db/STDbWhere.php                       |   4 +-
+ environment/html/STCheck.php                       | 113 ++++--
+ plugins/gallery/STSubGalleryContainer.php          |   8 +-
+ .../STUserClusterGroupManagement.php               |  72 +++-
+ plugins/usermanagement/STUserManagement.php        |   3 +-
+ plugins/usermanagement/STUserSession.php           |   2 +-
+ 18 files changed, 836 insertions(+), 467 deletions(-)
+
+
+changed files:
+        geändert:       environment/base/STBaseTable.php
+        geändert:       environment/db/STDatabase.php
+        geändert:       environment/db/STDbTable.php
+
+
+		echo __FILE__.__LINE__."<br>";
+		echo "needed columns before";
+		st_print_r($aNeededColumns, 2);
+
+
+
+# change to new branch for commit
+$> git switch -c <new Branch>
 youtube:https://www.youtube.com/watch?v=D7JJnLFOn4A
