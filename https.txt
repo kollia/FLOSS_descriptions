@@ -8,8 +8,10 @@ $> sudo a2enmod ssl
 $> sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout apache.key -out apache.crt
 
 - Zertifikate nach "SSLEngine on" in > /etc/apache2/sites-available/default-ssl.conf  ersetzen
-SSLCertificateFile    <path>/apache.crt
+SSLCertificateFile    <path>/apache.crt # -> auch *_NoKey.pem
 SSLCertificateKeyFile <path>/apache.key
+- test before apache restart
+$> sudo apache2ctl configtest
 
 -Zertifikate aktivieren
 $> sudo a2ensite default-ssl.conf
