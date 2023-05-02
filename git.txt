@@ -16,6 +16,7 @@ $> git config --global credential.helper cache           - cached username und p
 $> git config --global --unset credential.helper
 $> git config --global pull.rebase true|false            - true für Rebasing beim pullen, false fürs Mergen
 $> git config --global pull.ff only                      - ausschließlich Vorspulen anstatt pull.rebase
+$> git config --global merge.tool kdiff3                 - merge tool kdiff3 global konfigurieren (for $> git mergetool)
 $> 
 [   
 [       --global    - define for all repositorys
