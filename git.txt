@@ -19,7 +19,7 @@ $> git config --global pull.ff only                      - ausschließlich Vorsp
 $> git config --global merge.tool kdiff3                 - merge tool kdiff3 global konfigurieren (for $> git mergetool)
 $> 
 [   
-[       --global    - define for all repositorys
+[       --global    - define for all repositories
 [
 
 Generating a new SSH key -> see: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
@@ -160,6 +160,29 @@ git checkout development
 git merge --no-ff tschaunerx
 git push origin kollia
 
+
+
+
+************************************************
+*
+* git - working with sub-projects
+*       from other repositories
+*
+************************************************
+$> git remote add -f <alias> <git repository>           # set an alias for git repository path
+                                                        # for deleting $> git remote remove <alias>
+
+$> git subtree add --prefix <saving-path> <remote-alias> <sub-porject-branch> --squash
+                                                        # create sub-project as subtree inside own repository
+                                                        # --prefix <saving-path>   - path in own repository
+                                                        # --squash                 - do'nt store full hisory of sub-project
+                                                        #                            inside own repository
+$> git log -2 --oneline                                 # show log only from subtrees
+$> git describe --tags <remote-alias>/<remote-branch>   # describe tag version of current subtree module
+$> git remote --verbose                                 # show all remote repositories exist
+$> git fetch <remote-alias> <remote-branch>             # fetch sources from subtree
+$> git subtree pull --prefix <saving-path> <remote-alias> <remote-branch / remote-tag> --squash
+                                                        # checkout subtree for new reote-branch or remote-tag
 
 
 
