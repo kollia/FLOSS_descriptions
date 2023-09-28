@@ -107,21 +107,6 @@ $> git push -f <remote> <branch> -> zb. git push -f origin main
 
 
 
-************************************************
-*
-* git - Semantic Versioning ( X.Y.Z )
-*       [major].[minor].[patch]-[build/beta/rc]
-*       E.g. v1.2.0-beta
-*
-************************************************
-$> git tag -a "v1.2.0-beta" -m "<commit message>"    -   set current revision to new version
-$> git push --tags                                   -   push version to server
-$> git describe                                      -   show current version
-$> git show v1.2.0-beta                              -   view details
-
-git submodule       -   create repository embedded inside another repository
-
-
 
 
 ************************************************
@@ -130,9 +115,10 @@ git submodule       -   create repository embedded inside another repository
 *
 ************************************************
 
-$> git branch                          - list all exist branches -> a star ('*') describe the current branch
-$> git branch <new branch>             - create new branch locally
-                  -d          - löscht branch vom lokalen repository
+$> git branch                                   - list all exist branches -> a star ('*') describe the current branch
+$> git branch <branch>                          - create new branch locally
+$> git push <remote-name> --delete <branch>     - remote name is mostly origin and delete there the given branch
+$> git branch -d <branch>                       - löscht branch vom lokalen repository
 
 $> git checkout <branch>      - wechselt auf existierenden branch
                   -b          - erzeugt branch befor er dorthin wechselt
@@ -162,6 +148,21 @@ git push origin kollia
 
 
 
+************************************************
+*
+* git - Semantic Versioning ( X.Y.Z )
+*       [major].[minor].[patch]-[build/beta/rc]
+*       E.g. v1.2.0-beta
+*
+************************************************
+$> git tag -a "v1.2.0-beta" -m "<commit message>"    -   set current revision to new version
+$> git push --tags                                   -   push version to server
+$> git describe                                      -   show current version
+$> git show v1.2.0-beta                              -   view details
+
+git submodule       -   create repository embedded inside another repository
+
+
 
 ************************************************
 *
@@ -171,6 +172,11 @@ git push origin kollia
 ************************************************
 $> git remote add -f <alias> <git repository>           # set an alias for git repository path
                                                         # for deleting $> git remote remove <alias>
+                                                        # if clone in a new subdirectory the repository
+                                                        # you have to add the remote alias again
+
+$> ??? git merge -s ours <alias>/<branch> ???           # not realy know what done
+                                                        # record a merge, so we can track later the entrys to this point
 
 $> git subtree add --prefix <saving-path> <remote-alias> <sub-porject-branch> --squash
                                                         # create sub-project as subtree inside own repository
@@ -178,6 +184,7 @@ $> git subtree add --prefix <saving-path> <remote-alias> <sub-porject-branch> --
                                                         # --squash                 - do'nt store full hisory of sub-project
                                                         #                            inside own repository
 $> git log -2 --oneline                                 # show log only from subtrees
+$> git log --all --grep="git-subtree-dir:"              # list all exist subtree creation 
 $> git describe --tags <remote-alias>/<remote-branch>   # describe tag version of current subtree module
 $> git remote --verbose                                 # show all remote repositories exist
 $> git fetch <remote-alias> <remote-branch>             # fetch sources from subtree
