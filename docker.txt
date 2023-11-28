@@ -172,7 +172,12 @@ volumes:
 
 
 auf command-line:
-    $> sudo docker-compose up -d        ## = vereinfachung für $> sudo docker stack deploy -c docker-compose.yml <paket> # braucht $> sudo docker swarm init
+    $> docker-compose up -d     - starting docker-compose.yml
+                                  ## = vereinfachung für $> sudo docker stack deploy -c docker-compose.yml <paket> # braucht $> sudo docker swarm init
+    $> docker-compose down      - stopt und löscht alle container
+                                  bei Problemen können die Kontainer auch einzeln gestoppt / gelöscht werden
+                                    $> docker stop $(docker ps -a -q)
+                                    $> docker rm $(docker ps -a -q)
 
 
 
