@@ -31,20 +31,22 @@ start or enable docker on system:
 EXISTIERENDE CONTAINER herunterladen/warten:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    $> sudo docker pull <paket>                             -   lädt Paket (zb. busybox) herunter
-    $> sudo docker run [-d] <paket [parameter]>             -   startet container
+    $> docker pull <paket>                             -   lädt Paket (zb. busybox) herunter
+    $> docker run [-d] <paket [parameter]>             -   startet container
                                                                 [-d] =  detached modus damit der server nicht die command line blockiert und im Hintergrund rennt -> ausgabe (log) wird nicht angezeigt
                                                                         gibt auch zusatzlich eine Hash-ID zurück für weitere Befehle
-    $> sudo docker attach <Hash-ID>                         -   verbindet wieder zum detached server -> ausgabe (log) wird wieder angezeigt -> es kann mit [strg] + C abgebrochen werden (docker image wird gestoppt)
-    $> sudo docker logs <Hash-ID>                           -   zeigt alle logs seit dem start
-    $> sudo docker exec -ti <Hash-ID> bash                  -   zugriff auf laufenden Container mit der bash-shell
-    $> sudo docker stop <Hash-ID/Container-ID>              -   stopt container
-    $> sudo docker rm <container id> [container id] ...     -   löscht container: <container id> ersichtlich aus "docker ps" (= kurzversion von <Hash-ID>)
-    $> sudo docker container prune                          -   löscht alle gestoppten container  und gibt Speicherplatz frei
+    $> docker attach <Hash-ID>                         -   verbindet wieder zum detached server -> ausgabe (log) wird wieder angezeigt -> es kann mit [strg] + C abgebrochen werden (docker image wird gestoppt)
+    $> docker logs <Hash-ID>                           -   zeigt alle logs seit dem start
+    $> docker exec -ti <Hash-ID> bash                  -   zugriff auf laufenden Container mit der bash-shell
+    $> docker stop <Hash-ID/Container-ID>              -   stopt container
+    $> docker rm <container id> [container id] ...     -   löscht container: <container id> ersichtlich aus "docker ps" (= kurzversion von <Hash-ID>)
+    $> docker container prune                          -   löscht alle gestoppten container  und gibt Speicherplatz frei
+    $> docker commit <container id> <new image name>   -   erstellt nachträglich ein neues image von einem zuvor gestarteten container
+                                                           bie dem etwas verändert wurde
 
     BUSYBOX:
-    $> sudo docker run busybox <shell command>              -   führt shell kommando auf der commandline aus aber im docker container
-    $> sudo docker run -it busybox sh                       -   startet interaktive shell -- beenden mit dem Befehl "exit"
+    $> docker run busybox <shell command>              -   führt shell kommando auf der commandline aus aber im docker container
+    $> docker run -it busybox sh                       -   startet interaktive shell -- beenden mit dem Befehl "exit"
 
     DOCKER run [operatoren]:
         -d                                  -   detached modus -> beschrieben bei ersten docker run aufruf
