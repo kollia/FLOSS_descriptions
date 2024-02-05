@@ -1,0 +1,15 @@
+
+PHP debugging
+---------------------
+
+on Ubuntu
+$> aptitude install php-xdebug
+$> service apache2 restart
+
+on vscode
+install extension PHP Debug
+Menü > Debug/Ausfüren > Add Configuration.../Konfiguration hinzufügen...
+in lauch.json fill entry
+"runtimeExecutable": "/usr/bin/php"
+after port entry
+in firefox install add-on "XDebug helper"
