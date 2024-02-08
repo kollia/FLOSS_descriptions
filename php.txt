@@ -2,14 +2,45 @@
 PHP debugging
 ---------------------
 
-on Ubuntu
+on Ubuntu/Debian
 $> aptitude install php-xdebug
 $> service apache2 restart
 
+on Manjaro/Arch
+$> yay/pacman -S xdebug
+$> systemctl restart httpd
+
 on vscode
 install extension PHP Debug
-Menü > Debug/Ausfüren > Add Configuration.../Konfiguration hinzufügen...
-in lauch.json fill entry
-"runtimeExecutable": "/usr/bin/php"
-after port entry
+enable first xdebug extension in conf.d/xdebug.ini or php.ini
+Menü > Debug/Run/Ausfüren > Add Configuration.../Konfiguration hinzufügen...
+choose PHP
+in lauch.json there should add configuration like
+
+        {
+            "name": "Launch Built-in web server",
+            "type": "php",
+            "request": "launch",
+            "runtimeArgs": [
+                "-dxdebug.mode=debug",
+                "-dxdebug.start_with_request=yes",
+                "-S",
+                "localhost:0"
+            ],
+            "program": "",
+            "cwd": "${workspaceRoot}",
+            "port": 9003,
+            "serverReadyAction": {
+                "pattern": "Development Server \\(http://localhost:([0-9]+)\\) started",
+                "uriFormat": "http://localhost:%s",
+                "action": "openExternally"
+            }
+        }
+
+fill after port entry        
+"runtimeExecutable": "/usr/bin/php" (wasn't necessary on Manjaro)
+starting file writing with absolut path from Root like "/home/kollia/Development/www/..."
+into entry "program"
+
+debugging starting automatical inside chrome
 in firefox install add-on "XDebug helper"
