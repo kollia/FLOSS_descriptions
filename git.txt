@@ -170,6 +170,26 @@ git submodule       -   create repository embedded inside another repository
 *       from other repositories
 *
 ************************************************
+
+* implement submodule
+* - only a reference
+************************************************
+$> git submodule add <sub-repo-url> [path]		# add submodule
+							# sub-repo-url	- code path from github
+							#		  like  https://github.com/PHPMailer/PHPMailer.git
+							# path		- new subpath name (maybe other then PHPMailer in example before)
+
+$> git commit -m "<text>				# add new module to remote repository
+$> git push						# 
+
+# create new repository which have submodules
+$> git clone --recursive <repo-url>
+
+
+* implement subtree
+* - no reference full repository
+*   more easy to make changes
+************************************************
 $> git remote add -f <alias> <git repository>           # set an alias for git repository path
                                                         # for deleting $> git remote remove <alias>
                                                         # if clone in a new subdirectory the repository
