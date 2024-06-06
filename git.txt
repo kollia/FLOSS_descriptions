@@ -184,6 +184,8 @@ $> git push						#
 
 # create new repository which have submodules
 $> git clone --recursive <repo-url>
+# if submodul not exist after clone try in the root of repository
+$> git submodule --init --recursive
 
 
 * implement subtree
