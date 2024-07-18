@@ -39,6 +39,39 @@ auf: chrome://net-internals/#hsts
 
 https with letsencrypt over docker-container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mit ubuntu snap:
+$> sudo certbot certonly --apache -d <domain>
+domain wird als unterverzeichnis unter /etc/letsencrypt/live/ erstellt
+und sollte unter /etc/apache2/sites-available/000-default-le-ssl.conf eingetragen worden sein
+man kann auch eine zusätzliche adresse unter /etc/apache2/sites-available/<neue_domain>.conf eintragen.
+Datei Inhalt:
+__________________________________________________________________________________________________
+<VirtualHost *:443>
+    ServerName fracture.ai
+    DocumentRoot /var/www/html
+
+    SSLEngine on
+    SSLCertificateFile /etc/letsencrypt/live/fracture.ai/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/fracture.ai/privkey.pem
+
+    <Directory /var/www/html>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+<VirtualHost *:80>
+    ServerName fracture.ai
+    Redirect permanent / https://fracture.ai/
+</VirtualHost>
+__________________________________________________________________________________________________
+(der Redirect muss nicht unbedingt gemacht werden)
+und dann zu aktivieren und zu überprüfen:
+$> sudo a2ensite <neue_domain>.conf
+$> sudo apache2ctl configtest
+$> sudo systemctl restart apache2
+
+mit Docker-Container:
 $> docker pull certbot/certbot
 $> docker run -it --rm -p 80:80 -p 443:443 --name certbot \
     -v "/etc/letsencrypt:/etc/letsencrypt" \
