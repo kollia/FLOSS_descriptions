@@ -47,9 +47,15 @@ Verwende einen "personal access token" für https Abfrage -> see: https://docs.g
                                 -> linke Spalte letzte Option -> "Developer settings" auswählen
                                         -> linke Spalte "Personal access tokens" auswählen
                                                 -> Button rechts oben [generate new token]
-                um den access token zu verwenden siehe -> https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#using-a-token-on-the-command-line
+                den erzeugten Token als Passwort verwenden
+                genaue Beschreibung siehe -> https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#using-a-token-on-the-command-line
 
 
+************************************************
+*
+* Erstellen eines reopsitories auf github
+*
+************************************************
 [ - vom github server aus - ]
 < create first in github a repository >
 $> git clone <https://github.com/repository.git>
