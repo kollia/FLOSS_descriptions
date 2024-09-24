@@ -1,0 +1,39 @@
+maven is an java project-management tool
+
+beginning with: https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
+____________________________________________________________________________________________________________________________________________________________________________________
+creating a project
+$> mvn archetype:generate -DgroupId=<groupid> \              # Eindeutige Identifikation des Herstellers. Best Practice: Domain-Name des Herstellers in umgekehrter Reihenfolge. 
+                          -DartifactId=<artifactid> \        # Name des zu erstellenden Artefakts. Die ID stellt die Grundlage für den späteren Auslieferungsnamen dar.  
+                          -Dversion=<version> \              # Version des Projektes bzw. Artefakts. 
+                          -DarchetypeArtifactId=<maven-archetype-ID> \
+                          -DarchetypeVersion=<maven-achetype-Version> \
+                          -DinteractiveMode=false
+
+Example:
+$> mvn archetype:generate -DgroupId=at.kolli \
+                          -DartifactId=first-try_junit \
+                          -Dversion=0.0.1-build \
+                          -DarchetypeArtifactId=maven-archetype-quickstart \
+                          -DarchetypeVersion=1.5 \
+                          -DinteractiveMode=false
+
+                          
+___________________________________________________________________________________________________________________________________________________________________________________
+create local repository
+$> mvn install:install-file -DgroupId=<groupid> \        # Eindeutige Identifikation des Herstellers. Best Practice: Domain-Name des Herstellers in umgekehrter Reihenfolge. 
+                            -DartifactId=<artifactid> \  # Name des zu erstellenden Artefakts. Die ID stellt die Grundlage für den späteren Auslieferungsnamen dar. 
+                            -Dversion=<version> \        # Version des Projektes bzw. Artefakts. 
+                            -Dfile=<Bib-Archiv> \        # ?? url der Bibliothek
+                            -Dpackaging=<Packformat> \   # package
+                            -DgeneratePom=true 
+Example:
+$> mvn install:install-file -DgroupId=at.kolli \
+                            -DartifactId=first-try \
+                            -Dversion=0.0.1-build \
+                            -Dfile=testing \
+                            -Dpackaging=create \
+                            -DgeneratePom=true
+
+Suchmaschine für externe Bibliotheken:
+https://mvnrepository.com/
