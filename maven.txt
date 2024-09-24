@@ -6,17 +6,20 @@ creating a project
 $> mvn archetype:generate -DgroupId=<groupid> \              # Eindeutige Identifikation des Herstellers. Best Practice: Domain-Name des Herstellers in umgekehrter Reihenfolge. 
                           -DartifactId=<artifactid> \        # Name des zu erstellenden Artefakts. Die ID stellt die Grundlage für den späteren Auslieferungsnamen dar.  
                           -Dversion=<version> \              # Version des Projektes bzw. Artefakts. 
-                          -DarchetypeArtifactId=<maven-archetype-ID> \
-                          -DarchetypeVersion=<maven-achetype-Version> \
+                          -DarchetypeArtifactId=<maven-archetype-ID> \    # existing archetypes found at: https://maven.apache.org/archetypes/index.html
+                          -DarchetypeVersion=<maven-achetype-Version> \   # on site above, found also version under section 'about'
                           -DinteractiveMode=false
 
-Example:
+Example to execute:
 $> mvn archetype:generate -DgroupId=at.kolli \
-                          -DartifactId=first-try_junit \
+                          -DartifactId=first-try_hello-world \
                           -Dversion=0.0.1-build \
                           -DarchetypeArtifactId=maven-archetype-quickstart \
                           -DarchetypeVersion=1.5 \
                           -DinteractiveMode=false
+$> cd first-try_hello-world
+$> mvn package
+$> java -cp target/first-try-hello-world-0.0.1-build.jar at.kolli.App
 
                           
 ___________________________________________________________________________________________________________________________________________________________________________________
