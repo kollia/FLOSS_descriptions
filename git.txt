@@ -166,7 +166,15 @@ $> git push --tags                                   -   push version to server
 $> git describe                                      -   show current version
 $> git show v1.2.0-beta                              -   view details
 
-git submodule       -   create repository embedded inside another repository
+# delete local tag
+$> git tag -d <tag-name>
+# delete remote tag (eg, GitHub version too)
+$> git push origin :refs/tags/<tag-name>
+# alternative approach
+$> git push --delete origin <tag-name>
+$> git tag -d <tag-name>
+
+
 
 
 
@@ -178,6 +186,7 @@ git submodule       -   create repository embedded inside another repository
 ************************************************
 
 * implement submodule
+* git submodule       -   create repository embedded inside another repository
 * - only a reference
 ************************************************
 $> git submodule add <sub-repo-url> [path]		# add submodule
