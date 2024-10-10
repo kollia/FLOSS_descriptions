@@ -166,6 +166,9 @@ $> git push --tags                                   -   push version to server
 $> git describe                                      -   show current version
 $> git show v1.2.0-beta                              -   view details
 
+# see tag/commit contains in which branches
+$> git branch [-a] --contains <tag|commit>
+
 # delete local tag
 $> git tag -d <tag-name>
 # delete remote tag (eg, GitHub version too)
