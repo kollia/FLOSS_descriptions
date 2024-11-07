@@ -39,6 +39,14 @@ docker exec -it cvat_server bash -ic 'python3 ~/manage.py createsuperuser'
 start cvat docker containers # stopping is $> docker compose down
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 docker compose -f docker-compose.yml -f docker-compose.https.yml up -d
+**************************************************************************************
+stopping container
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+docker compose -f docker-compose.yml -f docker-compose.https.yml down
+
+rebuild containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^
 
 
 chek healthcare of server
