@@ -17,11 +17,14 @@ sudo apt-get update
 sudo apt-get --no-install-recommends install -y \
   docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-add user to docker-group and define host-URL
+
+add user to docker-group and define host-URL (only for first installation)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 sudo groupadd docker
 sudo usermod -aG docker $USER
-export CVAT_HOST=FQDN_or_YOUR-IP-ADDRESS # define maybe inside /etc/profile
+export CVAT_HOST=<FQDN_or_YOUR-IP-ADDRESS> # define maybe inside /etc/profile
+export ACME_EMAIL=<email-address>
+
 
 clone cvat repositroy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -31,3 +34,17 @@ git clone https://github.com/cvat-ai/cvat
 create super user on cvat-platform
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 docker exec -it cvat_server bash -ic 'python3 ~/manage.py createsuperuser'
+
+
+start cvat docker containers # stopping is $> docker compose down
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+docker compose -f docker-compose.yml -f docker-compose.https.yml up -d
+
+
+chek healthcare of server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+docker exec -t cvat_server python manage.py health_check
+
+
+
+
