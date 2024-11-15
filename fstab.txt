@@ -1,0 +1,15 @@
+
+# bind var
+sudo systemctl stop rsyslog
+sudo systemctl stop cron
+
+# Move /var content to external drive
+sudo mv /var/* /mnt/extended/var/
+
+# Update /etc/fstab again (uncomment the bind mount line)
+sudo nano /etc/fstab
+# Then, configure the bind mount for /var
+/mnt/extended/var    /var    none    bind    0    0
+
+# Test the mount
+sudo mount -a
