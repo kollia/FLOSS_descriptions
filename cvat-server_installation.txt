@@ -43,6 +43,12 @@ docker compose -f docker-compose.yml -f docker-compose.https.yml up -d
 ensure that dyndns updating always the IP
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 sudo aptitude install ddclient
+--------------------------------------------------------------------------------------
+ensure that no PowerDevil running
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sudo systemctl disable --now powerdevil
+sudo systemctl disable --now upower
+sudo systemctl disable --now pm-utils
 
 
 stopping container (um ein backup zu generieren oder einzuspielen)
