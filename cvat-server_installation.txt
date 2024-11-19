@@ -36,22 +36,35 @@ create super user on cvat-platform
 docker exec -it cvat_server bash -ic 'python3 ~/manage.py createsuperuser'
 
 
-start cvat docker containers # stopping is $> docker compose down
+start cvat docker containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 docker compose -f docker-compose.yml -f docker-compose.https.yml up -d
 **************************************************************************************
-stopping container
+ensure that dyndns updating always the IP
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sudo aptitude install ddclient
+
+
+stopping container (um ein backup zu generieren oder einzuspielen)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+docker compose -f docker-compose.yml -f docker-compose.https.yml stop
+
+shut down cvat-server
 docker compose -f docker-compose.yml -f docker-compose.https.yml down
 
 make backups from cvat server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 side:https://docs.cvat.ai/docs/administration/advanced/backup_guide/
 
 
 rebuild containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-^
+docker compose -f docker-compose.yml -f docker-compose.https.yml down
+docker compose -f docker-compose.yml -f docker-compose.https.yml rm
+docker compose -f docker-compose.yml -f docker-compose.https.yml build
+docker compose -f docker-compose.yml -f docker-compose.https.yml up -d
+
 
 
 chek healthcare of server
