@@ -49,6 +49,18 @@ ensure that no PowerDevil running
 sudo systemctl disable --now powerdevil
 sudo systemctl disable --now upower
 sudo systemctl disable --now pm-utils
+--------------------------------------------------------------------------------------
+add follow lines to /etc/systemd/logind.conf
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+HandleSuspendKey=ignore
+HandleHibernateKey=ignore
+HandlePowerKey=ignore
+IdleAction=ignore
+--------------------------------------------------------------------------------------
+
 
 
 stopping container (um ein backup zu generieren oder einzuspielen)
