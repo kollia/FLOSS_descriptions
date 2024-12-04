@@ -249,47 +249,20 @@ $> git difftool HEAD~1 HEAD     # see also bad issues with kdiff3, but you have 
 ( define >> git config --global alias.showtool '!showci () { rev=${1:-HEAD}; git difftool $rev~1 $rev; }; showci $1' << for alias
   is usable as $> git showtool <first bad commit> # without checkout bad commit )
 
-# git revert changes by youtube step 5:00
-# example: first bad commit  7d160a97435a6073a603dacbaec7728657d3ebcd
-#          last good c94c145
-
-Author: Alexander Kolli <alexander.kolli@medunigraz.at>
-Date:   Fri Feb 17 12:35:50 2023 +0100
-
-    implement next step to UserManagment
-
- environment/base/STBaseContainer.php               | 119 ++++--
- environment/base/STBaseTable.php                   | 433 +++++++++++++--------
- environment/base/STCallbackClass.php               |  10 +-
- environment/base/STItemBox.php                     |  19 +-
- environment/base/STListBox.php                     |  12 +-
- environment/base/STObjectContainer.php             | 110 ++++--
- environment/db/STDatabase.php                      |  48 ++-
- environment/db/STDbDeleter.php                     |   2 +-
- environment/db/STDbMySql.php                       |   2 +-
- environment/db/STDbSelector.php                    | 192 ++++-----
- environment/db/STDbTable.php                       | 150 +++++--
- environment/db/STDbTableContainer.php              |   4 +-
- environment/db/STDbWhere.php                       |   4 +-
- environment/html/STCheck.php                       | 113 ++++--
- plugins/gallery/STSubGalleryContainer.php          |   8 +-
- .../STUserClusterGroupManagement.php               |  72 +++-
- plugins/usermanagement/STUserManagement.php        |   3 +-
- plugins/usermanagement/STUserSession.php           |   2 +-
- 18 files changed, 836 insertions(+), 467 deletions(-)
-
-
-changed files:
-        geändert:       environment/base/STBaseTable.php
-        geändert:       environment/db/STDatabase.php
-        geändert:       environment/db/STDbTable.php
-
-
-		echo __FILE__.__LINE__."<br>";
-		echo "needed columns before";
-		st_print_r($aNeededColumns, 2);
-
-
+# in first bad commit make changes and merge it with branch you worked on
+# inside first bad commit
+$> git switch -c fix-error-<first bad commit hash> # create new branch
+$> git revert <first bad commit>
+# Fehler korrigieren und Änderungen committen
+$> git add <changed files> # after made correction, commit it
+$> git commit -m "Fix error in commit <first bad commit hash>"
+$> git switch <current branch>  # go back to current branch
+$> git pull origin main         # and make shure that you have last checkout
+$> git switch fix-error-7c8d52b
+$> git rebase main              # rebase fix branch with current branch
+$> git switch main
+$> git merge fix-error-7c8d52b
+$> git push origin main
 
 # change to new branch for commit
 $> git switch -c <new Branch>
