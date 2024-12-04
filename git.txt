@@ -243,11 +243,11 @@ $> git bisect bad               # than define current last commit version as bad
 $> git bisect good <revision>   # afterwards define good version ex. git bisect good v2.6.13-rc2
 $> git bisect < bad | good >    # handle now throu commits with bad or true
                                 # git inform with |xxxxxxxxxxx| is the first bad commit
-$> git bisect reset             # now when finding stop bisect > you be in last commit again
+$> git bisect reset             # now when finding stop bisect > you be in last commit where you bisect started
 $> git show <first bad commit>  # see bad issues (<first bad commit> can also be current HEAD command) or
-$> git difftool HEAD~1 HEAD     # see also bad issues with kdiff3
+$> git difftool HEAD~1 HEAD     # see also bad issues with kdiff3, but you have to checkout first bad commit
 ( define >> git config --global alias.showtool '!showci () { rev=${1:-HEAD}; git difftool $rev~1 $rev; }; showci $1' << for alias
-  is usable as $> git showtool <first good commit> )
+  is usable as $> git showtool <first bad commit> # without checkout bad commit )
 
 # git revert changes by youtube step 5:00
 # example: first bad commit  7d160a97435a6073a603dacbaec7728657d3ebcd
