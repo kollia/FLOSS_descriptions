@@ -128,6 +128,8 @@ $> git branch -d <branch>                       - löscht branch vom lokalen rep
 
 $> git checkout <branch>      - wechselt auf existierenden branch
                   -b          - erzeugt branch befor er dorthin wechselt
+$> git switch  <new Branch>   - wechselt auf existierenden branch
+		  -c          - erzeugt branch befor er dorthin wechselt
 $> git checkout <revision> .           - checkout older revision
 $> git reset --hard                    - maybe you have to reset all changes before, or ...
 $> git switch -c <new branch>          - save new changes from old commit in new branch
@@ -256,14 +258,23 @@ $> git revert <first bad commit>
 # Fehler korrigieren und Änderungen committen
 $> git add <changed files> # after made correction, commit it
 $> git commit -m "Fix error in commit <first bad commit hash>"
-$> git switch <current branch>  # go back to current branch
-$> git pull origin main         # and make shure that you have last checkout
-$> git switch fix-error-7c8d52b
-$> git rebase main              # rebase fix branch with current branch
-$> git switch main
-$> git merge fix-error-7c8d52b
-$> git push origin main
+$> git switch <current branch>       # go back to current branch you worked on
+$> git pull origin <current branch>  # and make shure that you have last checkout
+$> git switch fix-error-<first bad commit hash>
+$> git rebase <current branch>       # rebase fix branch with current branch
+$> git switch <current branch>
+$> git merge fix-error-<first bad commit hash>
+$> git push origin <current branch>
 
-# change to new branch for commit
-$> git switch -c <new Branch>
-youtube:https://www.youtube.com/watch?v=D7JJnLFOn4A
+# create merge autmatical for all commits to HEAD
+git switch -c fix-error-7c8d52b
+git rebase -i 7c8d52b^   # make interactive fix for all commits
+# Ändern Sie 'pick' zu 'edit' für den Commit 7c8d52b in der Rebase-Liste
+# Fehler korrigieren und Änderungen committen
+git add <betroffene_dateien>
+git commit --amend --no-edit
+git rebase --continue
+git push origin fix-error-7c8d52b --force
+git switch main
+git merge fix-error-7c8d52b
+git push origin main
