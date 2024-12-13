@@ -97,9 +97,11 @@ $> git pull [remote]                    - download (git fetch) and merge with cu
 $> git stash                    - übernimmt alle Änderungen in einen Buffer
 $> git stash list               - listet alle gespeicherten stashes auf
 $> git stash apply [stash@{nr}] - übernimmt die gestashten änderungen wieder
-                                  wird keine Nr angegeben, wird das erste angewendet
+                                  wird keine Nr angegeben, wird das erste (letzte angelegte) angewendet
 $> git stash drop [stash@{nr}]  - entfernt den gespeicherten stash
+                                  wird keine Nr angegeben, wird das erste (letzte angelegte) gelöscht
 $> git stash pop [stash@{nr}]   - holt den stash, gleich wie apply, jedoch wird er auch aus den gespeicherten gelöscht
+                                  wird keine Nr angegeben, wird das erste (letzte angelegte) geholt
 
 
 # wenn pull schief läuft nach merge bearbeitung
