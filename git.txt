@@ -17,7 +17,11 @@ $> git config --global --unset credential.helper
 $> git config --global pull.rebase true|false            - true für Rebasing beim pullen, false fürs Mergen
 $> git config --global pull.ff only                      - ausschließlich Vorspulen anstatt pull.rebase
 $> git config --global merge.tool kdiff3                 - merge tool kdiff3 global konfigurieren (for $> git mergetool)
-$> 
+$> git config --global diff.tool vscode
+$> git config --global difftool.vscode.cmd "code --wait --diff $LOCAL $REMOTE"
+                                                         - define vs code as diff tool
+$> git config --global alias.showtool "!showci () { rev=${1:-HEAD}; git difftool $rev~1 $rev; }; showci $1"
+                                                         - define git showtool alias for difference search by >> git bisect << search
 [   
 [       --global    - define for all repositories
 [
@@ -250,8 +254,8 @@ $> git bisect < bad | good >    # handle now throu commits with bad or true
 $> git bisect reset             # now when finding stop bisect > you be in last commit where you bisect started
 $> git show <first bad commit>  # see bad issues (<first bad commit> can also be current HEAD command) or
 $> git difftool HEAD~1 HEAD     # see also bad issues with kdiff3, but you have to checkout first bad commit
-( define >> git config --global alias.showtool '!showci () { rev=${1:-HEAD}; git difftool $rev~1 $rev; }; showci $1' << for alias
-  is usable as $> git showtool <first bad commit> # without checkout bad commit )
+                                # or
+$> git showtool <first bad commit> # showtool defined before as global
 
 # in first bad commit make changes and merge it with branch you worked on
 # inside first bad commit
