@@ -260,8 +260,9 @@ $> git showtool <first bad commit> # showtool defined before as global
 # in first bad commit make changes and merge it with branch you worked on
 # inside first bad commit
 $> git switch -c fix-error-<first bad commit hash> # create new branch
-$> git revert <first bad commit>
-# Fehler korrigieren und Änderungen committen
+$> git merge <with wished branch>
+$> git revert <first bad commit> # if you want recycle the full commit
+## or correct only the errors
 $> git add <changed files> # after made correction, commit it
 $> git commit -m "Fix error in commit <first bad commit hash>"
 $> git switch <current branch>       # go back to current branch you worked on
