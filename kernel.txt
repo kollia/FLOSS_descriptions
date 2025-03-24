@@ -23,6 +23,8 @@ $> ??? sudo kernel-install remove <Kernel-Version> ???
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # list kernels
 $> pacman -Q | grep linux
+$> ??? mhwd-kernel --list
+$> ??? mhwd-kernel --install <kernelVersion>
 
 
 
