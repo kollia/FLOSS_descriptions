@@ -1,0 +1,3 @@
+
+# chroot manjaro from an live USB
+$> manjaro-chroot -a
