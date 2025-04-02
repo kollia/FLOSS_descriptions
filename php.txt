@@ -3,12 +3,18 @@ PHP debugging
 ---------------------
 
 on Ubuntu/Debian
-$> aptitude install php-xdebug
-$> service apache2 restart
+$> sudo aptitude install php-xdebug
+$> sudo service apache2 restart
 
 on Manjaro/Arch
-$> yay/pacman -S xdebug
-$> systemctl restart httpd
+#> yay/pacman -S xdebug
+$> sudo systemctl restart httpd
+
+on RedHat
+$> sudo dnf install php-pecl-xdebug3.x86_64
+$> sudo systemctl restart httpd
+ or use fpm 
+#> sudo systemctl restart php-fpm
 
 on vscode
 install extension PHP Debug
