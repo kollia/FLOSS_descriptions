@@ -15,7 +15,11 @@ $> yay -sS <part of package-name>           - search packages
 $> yay -S <package>                         - install pacakge
 
 
-openSuse: Leap or Thumbleweed (zypper)
+openSuse: Leap or Tumbleweed (zypper)
 ------------------------------------------------------------------------------------------------
-$> zypper searcn <part of pacakge>          - search package
-$> sudo zypper in <package>                 - install package
+docu: https://en.opensuse.org/SDB:Upgrade_Tumbleweed
+------------------------------------------------------------------------------------------------
+$> zypper se <part of pacakge>              - search package (short for: search)
+$> sudo zypper in <package>                 - install package (short for: install)
+$> sudo zypper up                           - update list of packages exist on mirror (short for: update)
+$> sudo zypper dup                          - upgrade repository on own system (short for: dist-upgrade)
