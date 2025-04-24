@@ -1,0 +1,21 @@
+Package Management for different distributions:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ubuntu: (apt, apt-get, aptitude)
+-----------------------------------------------------------------------------------------------
+$> apt search <part of package-name>        - search packages
+$> sudo apt update                          - update list of packages exist on mirror
+$> sudo apt full-upgrade                    - upgrade repository on own system
+
+
+Manjaro: (pacman, yay)
+-----------------------------------------------------------------------------------------------
+$> yay                                      - upgrade repository on own system
+$> yay -sS <part of package-name>           - search packages
+$> yay -S <package>                         - install pacakge
+
+
+openSuse: Leap or Thumbleweed (zypper)
+------------------------------------------------------------------------------------------------
+$> zypper searcn <part of pacakge>          - search package
+$> sudo zypper in <package>                 - install package
