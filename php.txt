@@ -16,10 +16,15 @@ $> sudo systemctl restart httpd
  or use fpm 
 #> sudo systemctl restart php-fpm
 
+on SUSE
+# <x> is php version
+$> sudo zypper in php<x> apache2-mod_php<x> php<x>-xdebug
+$> sudo systemctl restart apache2
+
 on vscode
 install extension PHP Debug
 enable first xdebug extension in conf.d/xdebug.ini or php.ini
-Menü > Debug/Run/Ausfüren > Add Configuration.../Konfiguration hinzufügen...
+Menü-Leiste > Debug/Run/Ausführen > Add Configuration.../Konfiguration hinzufügen...
 choose PHP
 in lauch.json there should add configuration like
 
@@ -36,6 +41,7 @@ in lauch.json there should add configuration like
             "program": "",
             "cwd": "${workspaceRoot}",
             "port": 9003,
+            //"runtimeExecutable": "/usr/bin/php",
             "serverReadyAction": {
                 "pattern": "Development Server \\(http://localhost:([0-9]+)\\) started",
                 "uriFormat": "http://localhost:%s",
@@ -47,6 +53,12 @@ fill after port entry
 "runtimeExecutable": "/usr/bin/php" (wasn't necessary on Manjaro)
 starting file writing with absolut path from Root like "/home/kollia/Development/www/..."
 into entry "program"
+by openSuse vscode in flatpak running does not reach "/usr/bin/php"
+so install from microsoft repo
+ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+ sudo zypper ar -f https://packages.microsoft.com/yumrepos/vscode vscode
+ sudo zypper refresh
+ sudo zypper install code
 
 debugging starting automatical inside chrome
 in firefox install add-on "XDebug helper"
