@@ -1,0 +1,11 @@
+
+# check first firewall
+$> sudo firewall-cmd --list-all
+# should show allowed services an ports
+# service 'http' or port 80 should be available
+
+# add services like http
+$> sudo firewall-cmd --permanent --add-service=http
+
+# reload firewall
+$> sudo firewall-cmd --reload
