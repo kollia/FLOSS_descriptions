@@ -1,0 +1,27 @@
+
+# for systems with AppArmor like Ubuntu
+# check status to see app like apache
+$> sudo aa-status
+
+####################################################################################################################################
+
+# for systems with SELinux like SUSE or RedHat
+# check whether SELinux running
+$> sudo getenforce
+# result:
+#     Enforcing
+#     Permissive
+
+# set running
+$> sudo setenforce <0|1>
+#   0 - Permissive
+#   1 - Enforcing
+
+# allow new DocumentRoot for apache server
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$> sudo semanage fcontext -a -t httpd_sys_content_t "<new DocumentRoot path>(/.*)?"
+#  - command tells SELinux that everything in that directory (and subdirectories) should have the Apache web content context.
+$> sudo semanage fcontext -a -t httpd_sys_rw_content_t "<new DocumentRoot path>(/.*)?"
+#  - allow apache also to upload files in that directory
+$> sudo restorecon -Rv /mnt/EXTENDED01/HOME_extended/Development/www/htdocs
+#  - 
