@@ -21,5 +21,6 @@ docu: https://en.opensuse.org/SDB:Upgrade_Tumbleweed
 ------------------------------------------------------------------------------------------------
 $> zypper se <part of pacakge>              - search package (short for: search)
 $> sudo zypper in <package>                 - install package (short for: install)
-$> sudo zypper up                           - update list of packages exist on mirror (short for: update)
-$> sudo zypper dup                          - upgrade repository on own system (short for: dist-upgrade)
+$> sudo zypper ref                          - refresh repository data. Only necessary to review available updates with zypper list-updates, or troubleshoot repo issues.
+$> sudo zypper up                           - update only existing installed packages (can cause problems for tumbleweed)
+$> sudo zypper dup                          - safely upgrades the whole system 
