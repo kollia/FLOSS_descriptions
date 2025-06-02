@@ -1,5 +1,24 @@
 
 
+create new user:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'some_very_complex_password';
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost' WITH GRANT OPTION;                     - can do all in all databases and give grant options to next/other user (WITH GRANT OPTION)
+GRANT select, insert, update, delete ON '<database>'.'<table>' TO '<user>'@'<host>';     - user can only select, insert, update and delete in table
+
+    SELECT: Lesen
+    INSERT: Neue Daten einfügen
+    UPDATE: Vorhandene Daten ändern
+    DELETE: Daten löschen
+    CREATE: Tabellen/DBs anlegen
+    DROP: Tabellen/DBs löschen
+    INDEX: Indizes anlegen/löschen
+    ALTER: Tabellenstruktur ändern
+
+FLUSH PRIVILEGES;                -  dont forget on end of all grants
+
+
+
 remove hole database from computer:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 sudo deluser mysql
@@ -17,12 +36,4 @@ sudo apt-get purge mysql-client-core-5.5
 sudo rm -rf /var/log/mysql
 sudo rm -rf /etc/mysql
 
-
-
-
-create new user:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'some_very_complex_password';
-GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
-FLUSH PRIVILEGES;
 
