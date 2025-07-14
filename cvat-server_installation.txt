@@ -36,6 +36,14 @@ create super user on cvat-platform
 docker exec -it cvat_server bash -ic 'python3 ~/manage.py createsuperuser'
 
 
+make cvat server reachable on localhost
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# need entry of cvat.dyndns.org inside /etc/hosts
+127.0.0.1 cvat.dyndns.org
+# also add localhost by trafik.http.routers.cvat entry in docker.compose.yml config-file
+- traefik.http.routers.cvat-ui.rule=Host(`${CVAT_HOST:-localhost}`) || Host(`localhost`)
+- traefik.http.routers.cvat.rule=Host(`${CVAT_HOST:-localhost}`) || Host(`localhost`)
+
 start cvat docker containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 docker compose -f docker-compose.yml -f docker-compose.https.yml up -d
