@@ -28,3 +28,6 @@ $> sudo zypper dup                          - dist-upgrade, safely upgrades the 
 $> sudo zypper lr -u                        - show all existing repositorys
 $> sudo zypper mr -d <repository name>      - disable repository seen from zypper lr, exp. vscode
 $> sudo zypper mr -e <repository name>      - enable repository after dist-upgrade again
+$> sudo zypper packages --orphaned          - verweiste pakete auflisten
+$> sudo zypper rm $(zypper packages --orphaned | awk '/^i/ {print $5}')
+                                            - verweiste pakete löschen $> zypper-leaves soll das auch können, noch nicht getestet
