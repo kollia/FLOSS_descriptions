@@ -13,14 +13,14 @@ $> git config --global core.editor nano                  - Editor einstellen
 $> git config --global color.ui true                     - optional, Farbgebung für Terminal
 $> git config --global credential.helper store           - speichert user:passwort@host beim nächsten $> git pull - unter ~/.git-credentials
 $> git config --global credential.helper cache           - cached username und passwort
-$> git config --global --unset credential.helper
+$> git config --global --unset credential.helper         - to remove old credentials
 $> git config --global pull.rebase true|false            - true für Rebasing beim pullen, false fürs Mergen
 $> git config --global pull.ff only                      - ausschließlich Vorspulen anstatt pull.rebase
 $> git config --global merge.tool kdiff3                 - merge tool kdiff3 global konfigurieren (for $> git mergetool)
 $> git config --global diff.tool vscode
 $> git config --global difftool.vscode.cmd "code --wait --diff $LOCAL $REMOTE"
                                                          - define vs code as diff tool
-$> git config --global alias.showtool "!showci () { rev=${1:-HEAD}; git difftool $rev~1 $rev; }; showci $1"
+$> git config --global alias.showtool '!showci () { rev=${1:-HEAD}; git difftool $rev~1 $rev; }; showci $1'
                                                          - define git showtool alias for difference search by >> git bisect << search
 [   
 [       --global    - define for all repositories
