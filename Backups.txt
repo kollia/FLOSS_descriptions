@@ -1,0 +1,100 @@
+
+System-Recovery with timeshift:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# system is bootable:
+----------------------------------------------------------
+# 1. Timeshift GUI öffnen
+sudo timeshift-gtk
+# ODER Kommandozeile:
+sudo timeshift --list
+
+# 2. Gewünschten Snapshot auswählen und wiederherstellen
+sudo timeshift --restore --snapshot "YYYY-MM-DD_HH-MM-SS"
+
+# 3. Neustart
+sudo reboot
+
+
+# boot with Advanced option in GRUP-Menu  
+----------------------------------------------------------
+# (Timeshift hat normalerweise keine GRUB-Integration)
+# Falls GRUB-Btrfs installiert ist:
+# 1. Advanced options → Snapshots wählen
+# 2. Timeshift-Snapshot auswählen
+# 3. System bootet vom Snapshot
+
+
+# system is not bootable:
+----------------------------------------------------------
+# Boot von USB-Stick/DVD:
+# 1. Timeshift auf Live-System installieren
+sudo apt update && sudo apt install timeshift
+# ODER für openSUSE:
+sudo zypper install timeshift
+
+# 2. Root-Partition der defekten Installation mounten
+sudo mkdir /mnt/system
+sudo mount /dev/nvme0n1p2 /mnt/system  # root Partition
+
+# 3. Timeshift konfigurieren und Snapshots anzeigen
+sudo timeshift --snapshot-device /dev/nvme0n1p2
+sudo timeshift --list
+
+# 4. System wiederherstellen
+sudo timeshift --restore --snapshot "YYYY-MM-DD_HH-MM-SS" --target-device /dev/nvme0n1p2
+
+# 5. Umount und Neustart
+sudo umount /mnt/system
+sudo reboot
+
+
+# Wichtige Infos für Timeshift:
+----------------------------------------------------------
+- Timeshift-Snapshots: Meist in /timeshift/snapshots/
+- Konfiguration: /etc/timeshift.json
+- Log-Dateien: /var/log/timeshift/
+- Standard-Format: YYYY-MM-DD_HH-MM-SS (z.B. 2025-08-05_10-30-15)
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+System-Recovery with Snapper:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# system is bootable:
+----------------------------------------------------------
+# 1. Verfügbare Snapshots anzeigen
+sudo snapper -c root list
+
+# 2. Gewünschten Snapshot finden (z.B. Nr. 45)
+sudo snapper -c root status 45..0
+
+# 3. System auf Snapshot zurücksetzen
+sudo snapper -c root undochange 45..0
+
+# 4. Neustart
+sudo reboot
+
+
+# boot with Advanced option in GRUP-Menu
+----------------------------------------------------------
+# 1.Advanced options → Snapshots wählen
+# 2.Snapshot auswählen (meist der neueste vor dem Problem)
+# 3.System bootet vom Snapshot
+# 4.Nach erfolgreichem Boot:
+
+
+# system is not bootable:
+----------------------------------------------------------
+# Boot von USB-Stick/DVD:
+# 1. Root-Partition mounten
+mount /dev/nvme0n1p2 /mnt  # root Partition on my currently laptop
+
+# 2. Verfügbare Snapshots anzeigen
+btrfs subvolume list /mnt
+
+# 3. Snapshot als neuen Root setzen (z.B. ID 264)
+btrfs subvolume set-default 264 /mnt
+
+# 4. Umount und Neustart
+umount /mnt
+reboot
