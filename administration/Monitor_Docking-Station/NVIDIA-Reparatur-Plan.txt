@@ -1,0 +1,50 @@
+NVIDIA Boot-Problem - Systematische Reparatur
+===============================================
+
+AKTUELLES PROBLEM:
+- System bootet nur zur Konsole nach NVIDIA Optimus-Konfiguration
+- Vermutlich: Display Manager (SDDM/GDM) kann nicht starten
+- Ursache: Konflikt zwischen modprobe-Einstellungen und Xorg-Konfiguration
+
+DIAGNOSE-PLAN (Read-Only Snapshot):
+===================================
+1. Aktuelle Display-Situation prüfen
+2. NVIDIA/Intel GPU Status analysieren 
+3. X11-Konfiguration validieren
+4. Sichere Reparatur-Strategie entwickeln
+
+VERMUTETE URSACHEN:
+==================
+A) Xorg.conf BusID falsch (PCI-Adressen stimmen nicht)
+B) nvidia-drm.modeset=0 + Xorg NVIDIA Driver = Konflikt
+C) SDDM kann Intel+NVIDIA Hybrid nicht initialisieren
+D) Fehlende/falsche Abhängigkeiten zwischen Treibern
+
+REPARATUR-STRATEGIE:
+===================
+1. Zurück zur kaputten Version
+2. Schritt-für-Schritt Diagnose
+3. Minimale, sichere Konfiguration
+4. Schrittweise Optimierung
+
+SICHERE NVIDIA-KONFIGURATION (Neu):
+===================================
+Statt radikaler Optimus-Trennung → Sanfte Koexistenz:
+
+# /etc/modprobe.d/nvidia-safe.conf
+options nvidia-drm modeset=1  # NVIDIA für Display ERLAUBEN
+options nvidia NVreg_UsePageAttributeTable=1
+options nvidia NVreg_InitializeSystemMemoryAllocations=0
+
+# KEINE separate Xorg.conf zunächst
+# Lass das System automatisch entscheiden
+
+SCHRITT-FÜR-SCHRITT REBOOT-PLAN:
+=================================
+1. sudo snapper rollback (zurück zur kaputten Version)
+2. Boot im Recovery-Modus falls nötig
+3. Alte Konfigurationen entfernen:
+   rm /etc/modprobe.d/nvidia-optimus.conf
+   rm /etc/X11/xorg.conf.d/20-nvidia-optimus.conf
+4. Neue, sichere Konfiguration
+5. Test-Reboot

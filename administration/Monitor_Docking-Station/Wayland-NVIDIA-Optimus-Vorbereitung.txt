@@ -1,0 +1,74 @@
+NVIDIA Optimus - Wayland Vorbereitung für openSUSE Tumbleweed
+==============================================================
+
+AKTUELLER ZUSTAND:
+- Session Type: X11 
+- NVIDIA Optimus konfiguriert für X11
+- Intel i915 als Primary Display Driver
+- NVIDIA für CUDA/Ollama reserviert
+
+WAYLAND HERAUSFORDERUNGEN:
+1. Wayland nutzt andere Display-Management-Mechanismen
+2. NVIDIA + Wayland kann komplexer sein als Intel + Wayland  
+3. MST (Multi-Stream Transport) Support in Wayland noch nicht vollständig
+4. Thunderbolt-Dock Integration unterscheidet sich
+
+LÖSUNGSANSATZ - ZUKUNFTSSICHER:
+================================
+
+1. KERNEL PARAMETER (bereits gesetzt):
+   - nvidia-drm.modeset=0 → verhindert NVIDIA Display-Control
+   - Funktioniert sowohl für X11 als auch Wayland
+
+2. WAYLAND-SPEZIFISCHE NVIDIA KONFIGURATION:
+   
+   /etc/modprobe.d/nvidia-wayland.conf:
+   options nvidia-drm modeset=0
+   options nvidia NVreg_EnableGpuFirmware=1
+   options nvidia NVreg_PreserveVideoMemoryAllocations=1
+   
+3. ENVIRONMENT VARIABLEN für Hybrid-Graphics:
+   
+   /etc/environment Ergänzungen:
+   # Wayland + NVIDIA Optimus
+   GBM_BACKEND=nvidia-drm
+   __GL_GSYNC_ALLOWED=0
+   __GL_VRR_ALLOWED=0
+   WLR_NO_HARDWARE_CURSORS=1
+   
+4. GNOME/KDE WAYLAND KONFIGURATION:
+   
+   Für GNOME:
+   /etc/gdm/custom.conf:
+   [daemon]
+   WaylandEnable=true
+   
+   Für KDE:
+   /etc/sddm.conf.d/wayland.conf:
+   [General]
+   DisplayServer=wayland
+   
+5. FALLBACK STRATEGIE:
+   - X11 Session weiterhin verfügbar lassen
+   - Bei Login zwischen Wayland/X11 wählen können
+   - Thunderbolt-Dock primär unter X11 testen
+
+THUNDERBOLT + MST UNTER WAYLAND:
+=================================
+- MST Support in Wayland noch limitiert
+- Möglicherweise benötigt: wlr-randr statt xrandr
+- Alternative: Wayland-native Display-Management
+
+MIGRATION PLAN:
+===============
+1. Aktuell: X11 mit optimiertem NVIDIA Optimus verwenden
+2. Bei Tumbleweed Wayland-Switch: zusätzliche Konfiguration aktivieren
+3. Testen mit beiden Sessions verfügbar
+4. dock-monitor-fix.sh für Wayland adaptieren
+
+NÄCHSTE SCHRITTE:
+=================
+1. Reboot mit aktueller X11-Konfiguration testen
+2. Boot-Performance und Monitor-Stabilität validieren  
+3. Bei funktionierender Basis: Wayland-Konfiguration vorbereiten
+4. Wayland-Version des dock-monitor-fix.sh entwickeln

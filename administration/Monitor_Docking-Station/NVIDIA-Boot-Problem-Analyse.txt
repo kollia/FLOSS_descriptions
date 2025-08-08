@@ -1,0 +1,61 @@
+NVIDIA Boot-Problem Analyse und sichere Lösung
+=================================================
+
+PROBLEM-ANALYSE:
+- System bootet nur zur Kommandozeile nach NVIDIA Optimus-Konfiguration
+- Wahrscheinlich: X11/Display Manager kann nicht starten
+- Grund: Konflikt zwischen nvidia-drm.modeset=0 und X11-Konfiguration
+
+SICHERE LÖSUNGSSTRAGIE:
+=======================
+
+1. MINIMALER ANSATZ (nur Boot-Performance):
+   - NUR MariaDB deaktivieren (war erfolgreich)
+   - NVIDIA-Konfiguration NICHT ändern
+   - Ergebnis: 60→30 Sekunden Boot-Zeit ohne Display-Risiko
+
+2. VORSICHTIGE NVIDIA-OPTIMIERUNG:
+   - Schritt-für-Schritt Ansatz
+   - Nach jedem Schritt testen
+   - Snapper-Snapshots zur Sicherheit
+
+SCHRITT-FÜR-SCHRITT PLAN:
+=========================
+
+Phase 1: Nur Boot-Performance (SICHER):
+- MariaDB disabled lassen (bereits gemacht in Snapshot)
+- systemctl disable nvidia-persistenced
+- Boot-Zeit messen
+
+Phase 2: Sanfte NVIDIA-Optimierung:
+- NUR modprobe.d Einstellung: options nvidia-drm modeset=0
+- KEINE Xorg.conf Änderungen zunächst
+- Test nach Reboot
+
+Phase 3: Falls Phase 2 erfolgreich:
+- Intel-optimierte Xorg-Konfiguration
+- NVIDIA nur für CUDA
+
+RÜCKGÄNGIG-MACHEN DER AKTUELLEN KONFIGURATION:
+==============================================
+Falls wir zur kaputten Version zurückgehen:
+
+# Diese Dateien löschen/rückgängig machen:
+sudo rm -f /etc/modprobe.d/nvidia-optimus.conf
+sudo rm -f /etc/X11/xorg.conf.d/20-nvidia-optimus.conf
+sudo systemctl enable nvidia-persistenced
+
+# Environment-Variablen aus /etc/environment entfernen:
+# Zeilen mit OLLAMA_GPU_DRIVER und CUDA_VISIBLE_DEVICES
+
+EMPFEHLUNG:
+===========
+1. Im aktuellen (funktionierenden) Snapshot bleiben
+2. MariaDB disabled lassen → gibt bereits Boot-Verbesserung
+3. Monitor-Problem mit dock-monitor-fix.sh lösen
+4. NVIDIA später vorsichtiger angehen
+
+ALTERNATIVE: Nur MariaDB-Fix permanent machen
+=============================================
+sudo snapper rollback  # macht aktuellen Snapshot permanent
+# Dann NUR: sudo systemctl disable mariadb && sudo systemctl mask mariadb

@@ -1,0 +1,7 @@
+
+
+kquitapp5 plasmashell
+kstart plasmashell od.
+plasmashell --replace &
+
+see: https://www.lifewire.com/kubuntu-p2-2202573

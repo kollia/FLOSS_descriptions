@@ -1,0 +1,6 @@
+# NVIDIA Optimus Wayland Support
+# Verhindert NVIDIA Display Control auch unter Wayland
+options nvidia-drm modeset=0
+options nvidia NVreg_EnableGpuFirmware=1
+options nvidia NVreg_PreserveVideoMemoryAllocations=1
+options nvidia NVreg_UsePageAttributeTable=1

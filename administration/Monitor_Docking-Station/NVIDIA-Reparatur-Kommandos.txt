@@ -1,0 +1,94 @@
+NVIDIA-REPARATUR: Schritt-für-Schritt Kommandos
+===============================================
+
+SCHRITT 1: Zurück zur kaputten Version
+=======================================
+sudo snapper rollback
+
+# Das System wird beim nächsten Reboot die "normale" Version laden
+# (mit unseren heute gemachten NVIDIA-Konfigurationen)
+
+
+SCHRITT 2: Reboot (wird wahrscheinlich zur Konsole booten)
+=========================================================
+sudo reboot
+
+# Falls das System zur Konsole bootet:
+# - Einloggen mit deinem Benutzernamen
+# - Mit den folgenden Kommandos reparieren
+
+
+SCHRITT 3: Alte NVIDIA-Konfiguration komplett entfernen
+=======================================================
+# Entferne die problematischen Konfigurationsdateien:
+sudo rm -f /etc/modprobe.d/nvidia-optimus.conf
+sudo rm -f /etc/X11/xorg.conf.d/20-nvidia-optimus.conf
+
+# NVIDIA-Service wieder aktivieren:
+sudo systemctl enable nvidia-persistenced
+
+# Environment-Variablen aus /etc/environment entfernen:
+sudo nano /etc/environment
+# Lösche diese Zeilen:
+# OLLAMA_GPU_DRIVER=cuda
+# CUDA_VISIBLE_DEVICES=0
+
+
+SCHRITT 4: Neue, sichere NVIDIA-Konfiguration
+=============================================
+# Erstelle eine sanftere NVIDIA-Konfiguration:
+sudo tee /etc/modprobe.d/nvidia-safe.conf << EOF
+# NVIDIA Safe Configuration - erlaubt Display-Management
+options nvidia-drm modeset=1
+options nvidia NVreg_UsePageAttributeTable=1  
+options nvidia NVreg_InitializeSystemMemoryAllocations=0
+EOF
+
+# Ollama CUDA-Umgebung (nur das Nötige):
+echo "CUDA_VISIBLE_DEVICES=0" | sudo tee -a /etc/environment
+
+
+SCHRITT 5: Kernel-Module neu laden
+==================================
+sudo modprobe -r nvidia_drm nvidia_modeset nvidia
+sudo modprobe nvidia nvidia_modeset nvidia_drm
+
+
+SCHRITT 6: Test-Reboot
+======================
+sudo reboot
+
+# Jetzt sollte das grafische System starten!
+
+
+SCHRITT 7: Nach erfolgreichem GUI-Boot testen
+=============================================
+# NVIDIA Status prüfen:
+nvidia-smi
+
+# Ollama CUDA testen:
+ollama run llama2 --verbose
+
+# Monitor-Problem mit unserem Script angehen:
+cd /mnt/EXTENDED01/HOME_extended/Development/administration/problems/
+./dock-monitor-fix.sh status
+
+
+BACKUP-PLAN: Falls Schritt 6 fehlschlägt
+========================================
+# Boot im Recovery-Modus:
+# 1. GRUB-Menü → Advanced Options → Recovery Mode
+# 2. Root-Shell wählen
+# 3. Alle NVIDIA-Konfigurationen entfernen:
+sudo rm -f /etc/modprobe.d/nvidia-*
+sudo rm -f /etc/X11/xorg.conf.d/*nvidia*
+# 4. Reboot - dann sollte Standard-Konfiguration funktionieren
+
+
+WARUM DIESE LÖSUNG BESSER IST:
+=============================
+✅ nvidia-drm.modeset=1 → NVIDIA darf Displays verwalten (kein Konflikt)
+✅ Keine radikale Xorg-Trennung → weniger komplex
+✅ System entscheidet automatisch Intel/NVIDIA
+✅ Ollama behält CUDA-Zugriff
+✅ Weniger invasiv = geringeres Risiko
