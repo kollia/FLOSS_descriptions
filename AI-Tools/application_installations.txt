@@ -57,8 +57,8 @@ OPENAI_API_KEY=23489780ßß0898t6w547697856789
 #####################################################################
 
 
-# starte mit $> sgpt <varios text>
-# or $>sgpt allone and it 
+# starte mit $> sgpt "<varios text>"
+# or $>sgpt allone and it describe that he know on which system he running and what he can do
 
 
 
@@ -75,6 +75,16 @@ $> /usr/bin/flatpak run --branch=stable --arch=x86_64 --command=alpaca com.jeffs
 ######################################################################################################################################################
 # image creation with easydiffusion
 #
-$> git clone https://github.com/easydiffusion/easydiffusion.git
-# ev. auf letzten tag wechseln mit
-$> git checkout <tag>
+# download from https://github.com/easydiffusion/easydiffusion the linux zip-file
+# extract and start inside new folder ./start.sh
+#
+# bei jedem Start vorher environment variable setzen
+$> export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+$> ./start.sh
+
+# für GTX 960M (2GB VRAM) - Low Memory Settings:
+# in der Web-UI (localhost:9000):
+# - GPU Memory Usage: Low
+# - Image Size: 256x256 (oder kleiner 128x128)
+# - Inference Steps: 15 (statt 25) - weniger Rausch-Unterdrückungs-Schritte = schneller + weniger VRAM
+# - Guidance Scale: 5-7 (statt 7.5) - wie stark dem Text-Prompt gefolgt wird
