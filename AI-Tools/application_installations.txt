@@ -1,0 +1,80 @@
+
+######################################################################################################################################################
+#    first installation / update
+# set new model path create file in /etc/profile.d/ with content:
+> export OLLAMA_MODELS=/mnt/EXTENDED03/ollama_models
+# download install ollama
+$> curl https://ollama.ai/install.sh | sh
+
+######################################################################################################################################################
+#    configure systemd service for custom model path
+# edit /etc/systemd/system/ollama.service and add in [Service] section:
+# Environment="PATH=/home/kollia/.local/bin:/usr/local/bin:/usr/bin:/bin"
+# Environment="OLLAMA_MODELS=/mnt/EXTENDED03/ollama_models"
+# 
+# then reload and restart:
+$> sudo systemctl daemon-reload
+$> sudo systemctl restart ollama
+
+
+
+######################################################################################################################################################
+# install shell-GPT for command line
+#
+$> pipx install shell-gpt[litellm]
+
+# configure shell-gpt to use Ollama instead of OpenAI
+# config-file: ~/.config/shell_gpt/.sgptrc 
+# change rows before ####################### string
+#
+CHAT_CACHE_PATH=/tmp/chat_cache
+CACHE_PATH=/tmp/cache
+CHAT_CACHE_LENGTH=100
+CACHE_LENGTH=100
+REQUEST_TIMEOUT=60
+#DEFAULT_MODEL=gpt-4o
+#DEFAULT_MODEL=ollama/gemma2:2b
+#DEFAULT_MODEL=ollama/mistral:latest
+DEFAULT_MODEL=ollama/starcoder2:3b
+#####################################################################
+DEFAULT_COLOR=magenta
+ROLE_STORAGE_PATH=/home/kollia/.config/shell_gpt/roles
+DEFAULT_EXECUTE_SHELL_CMD=false
+DISABLE_STREAMING=false
+CODE_THEME=dracula
+OPENAI_FUNCTIONS_PATH=/home/kollia/.config/shell_gpt/functions
+OPENAI_USE_FUNCTIONS=false
+#####################################################################
+SHOW_FUNCTIONS_OUTPUT=false
+API_BASE_URL=default
+PRETTIFY_MARKDOWN=true
+USE_LITELLM=true
+#####################################################################
+SHELL_INTERACTION=true
+OS_NAME=auto
+SHELL_NAME=auto
+OPENAI_API_KEY=23489780ßß0898t6w547697856789
+#####################################################################
+
+
+# starte mit $> sgpt <varios text>
+# or $>sgpt allone and it 
+
+
+
+
+######################################################################################################################################################
+# install alpaca GUI for Chat-Bot
+$> flatpak install flathub com.jeffser.Alpaca
+# zum starten
+$> flatpak run com.jeffser.Alpaca
+# or long command
+$> /usr/bin/flatpak run --branch=stable --arch=x86_64 --command=alpaca com.jeffser.Alpaca
+
+
+######################################################################################################################################################
+# image creation with easydiffusion
+#
+$> git clone https://github.com/easydiffusion/easydiffusion.git
+# ev. auf letzten tag wechseln mit
+$> git checkout <tag>
