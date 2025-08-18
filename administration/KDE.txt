@@ -1,0 +1,32 @@
+
+
+KDE switch off power-management
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+: switch off
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
+: chek system - all should be dead
+systemctl status sleep.target suspend.target hibernate.target hybrid-sleep.target
+
+: set for all featured and exist users
+sudo mkdir -p /etc/skel/.config
+sudo tee /etc/skel/.config/powermanagementprofilesrc << EOF
+[AC][DPMSControl]
+idleTime=0
+
+[AC][SuspendSession]
+idleTime=0
+suspendThenHibernate=false
+
+[Battery][DPMSControl]
+idleTime=0
+
+[Battery][SuspendSession]
+idleTime=0
+suspendThenHibernate=false
+EOF
+sudo find /home -name ".config" -type d -exec cp /etc/skel/.config/powermanagementprofilesrc {}/powermanagementprofilesrc \;
+
+: undo
+sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
