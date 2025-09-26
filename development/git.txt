@@ -42,7 +42,10 @@ $> cat ~/.ssh/<filename>.pub                                    -       kopiere 
 $> ssh -T git@github.com                                        -       testing your connection
                                                                         wenn Du Deinen Namen siehst und es steht "You've successfully authenticated"
                                                                         kannst Du ein $> git clone <code> machen
-                                                                        wichtig beim grünen Button "Code" SSH wählen
+                                                                        wichtig beim grünen Button "Code" SSH wählenH
+alternativ
+Heisse Einführung:
+https://www.heise.de/tipps-tricks/SSH-Key-fuer-GitHub-Repositories-einrichten-4627459.html
 
 Verwende einen "personal access token" für https Abfrage -> see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
